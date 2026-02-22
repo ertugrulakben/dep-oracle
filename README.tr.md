@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">dep-oracle</h1>
-  <p align="center"><strong>Prediktif Bagimlilik Guvenlik Motoru</strong></p>
+  <p align="center"><strong>Prediktif Bağımlılık Güvenlik Motoru</strong></p>
   <p align="center">
     <a href="https://www.npmjs.com/package/dep-oracle"><img src="https://img.shields.io/npm/v/dep-oracle.svg" alt="npm version"></a>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
@@ -8,43 +8,43 @@
     <a href="https://github.com/ertugrulakben/dep-oracle"><img src="https://img.shields.io/github/stars/ertugrulakben/dep-oracle.svg?style=social" alt="GitHub stars"></a>
   </p>
   <p align="center">
-    <a href="#hizli-baslangic">Hizli Baslangic</a> &middot;
-    <a href="#ozellikler">Ozellikler</a> &middot;
-    <a href="#guven-skoru-algoritmasi">Algoritma</a> &middot;
+    <a href="#hızlı-başlangıç">Hızlı Başlangıç</a> &middot;
+    <a href="#özellikler">Özellikler</a> &middot;
+    <a href="#güven-skoru-algoritması">Algoritma</a> &middot;
     <a href="#claude-code-entegrasyonu-mcp">MCP</a> &middot;
-    <a href="#karsilastirma">Karsilastirma</a>
+    <a href="#karşılaştırma">Karşılaştırma</a>
   </p>
   <p align="center">
-    <a href="README.md">English</a> | <strong>Turkce</strong>
+    <a href="README.md">English</a> | <strong>Türkçe</strong>
   </p>
 </p>
 
 ---
 
-> **Bagimliklarinin bagimliliklari var. Kim kontrol ediyor?**
+> **Bağımlılıklarının bağımlılıkları var. Kim kontrol ediyor?**
 
-**dep-oracle**, bagimlilik agacindaki her paket icin **Guven Skoru** (0-100) hesaplayan prediktif bir bagimlilik guvenlik motorudur. Zombi bagimliliklari tespit eder, patlama yaricapini olcer, typosquatting girisimlerini yakalar ve gelecekteki riskleri -- daha guvenlik acigina donusmeden -- onceden tahmin eder.
+**dep-oracle**, bağımlılık ağacındaki her paket için **Güven Skoru** (0-100) hesaplayan prediktif bir bağımlılık güvenlik motorudur. Zombi bağımlılıkları tespit eder, patlama yarıçapını ölçer, typosquatting girişimlerini yakalar ve gelecekteki riskleri — daha güvenlik açığına dönüşmeden — önceden tahmin eder.
 
-**Claude Code Security** sizin kodunuzu tarar. **dep-oracle** ise kodunuzun **bagimli oldugu her seyi** tarar.
+**Claude Code Security** sizin kodunuzu tarar. **dep-oracle** ise kodunuzun **bağımlı olduğu her şeyi** tarar.
 
 ## Neden dep-oracle?
 
-Tedarik zinciri saldirilari (supply chain attacks) her yil daha buyuk bir tehdit haline geliyor:
+Tedarik zinciri saldırıları (supply chain attacks) her yıl daha büyük bir tehdit haline geliyor:
 
-- **2025'teki guvenlik ihlallerinin %62'si** tedarik zinciri saldirilari kaynakli
-- Ortalama bir projede **683 gecisli (transitive) bagimlilik** bulunuyor
-- `npm audit` yalnizca **bilinen** CVE'leri yakalayabiliyor -- dep-oracle gelecekteki riskleri **tahmin ediyor**
-- Kendi kodunuzu denetliyorsunuz. Peki bagimlilik zincirinizi de denetliyor musunuz?
+- **2025'teki güvenlik ihlallerinin %62'si** tedarik zinciri saldırıları kaynaklı
+- Ortalama bir projede **683 geçişli (transitive) bağımlılık** bulunuyor
+- `npm audit` yalnızca **bilinen** CVE'leri yakalayabiliyor — dep-oracle gelecekteki riskleri **tahmin ediyor**
+- Kendi kodunuzu denetliyorsunuz. Peki bağımlılık zincirinizi de denetliyor musunuz?
 
-Turkiye'deki yazilim ekosistemi hizla buyuyor. Startuplardan kurumsallara, e-ticaret projelerinden fintech uygulamalarina kadar her yerde npm, pip ve yarn paketleri kullaniliyor. Ancak `node_modules` klasorunun icinde ne oldugunu kac kisi gercekten biliyor? Bir paket maintainer'i hesabini birakirsa, bir bagimlilik yillardir guncellenmiyorsa ya da ismini populer bir paketten degistirip kotu amacli kod enjekte eden biri varsa -- dep-oracle tam da bu noktalarda devreye giriyor.
+Türkiye'deki yazılım ekosistemi hızla büyüyor. Startup'lardan kurumsallara, e-ticaret projelerinden fintech uygulamalarına kadar her yerde npm, pip ve yarn paketleri kullanılıyor. Ancak `node_modules` klasörünün içinde ne olduğunu kaç kişi gerçekten biliyor? Bir paket maintainer'ı hesabını bırakırsa, bir bağımlılık yıllardır güncellenmiyorsa ya da ismini popüler bir paketten değiştirip kötü amaçlı kod enjekte eden biri varsa — dep-oracle tam da bu noktalarda devreye giriyor.
 
-## Hizli Baslangic
+## Hızlı Başlangıç
 
 ```bash
-# Kurulum gerektirmez -- dogrudan calistirin
+# Kurulum gerektirmez — doğrudan çalıştırın
 npx dep-oracle
 
-# Ya da global olarak yukleyin
+# Ya da global olarak yükleyin
 npm install -g dep-oracle
 dep-oracle scan
 
@@ -52,28 +52,28 @@ dep-oracle scan
 dep-oracle check express
 ```
 
-## Ozellikler
+## Özellikler
 
-| Ozellik | Aciklama |
+| Özellik | Açıklama |
 |---------|----------|
-| **Guven Skoru** | Her paket icin 0-100 arasi agirlikli skor (guvenlik, maintainer sagligi, aktivite, popularite, fonlama, lisans) |
-| **Zombi Tespiti** | Kritik ama bakimsiz paketleri bulur (12+ aydir commit yok) |
-| **Patlama Yaricapi** | Bir bagimlilik ele gecirilirse kac dosyanin etkilenecegini gosterir |
-| **Typosquat Tespiti** | 1.847+ bilinen paket + canli npm registry sorgusu ile suphelı isimleri yakalar |
-| **Trend Tahmini** | Indirme/commit/release trendlerine dayali 3 aylik risk projeksiyonu |
-| **Goc Danismani** | 131 paket eslesmesi ve 192 daha guvenli alternatif onerisi |
-| **Cevrimdisi Mod** | Internet olmadan onbellekten calisir (`--offline`) |
-| **MCP Sunucusu** | Claude Code ile dogal dilde bagimlilik sorgulama |
-| **Coklu Format** | Terminal (renkli agac), HTML, JSON ve SARIF ciktisi |
-| **GitHub Action** | CI/CD pipeline'inda otomatik guven kontrolu |
+| **Güven Skoru** | Her paket için 0-100 arası ağırlıklı skor (güvenlik, maintainer sağlığı, aktivite, popülarite, fonlama, lisans) |
+| **Zombi Tespiti** | Kritik ama bakımsız paketleri bulur (12+ aydır commit yok) |
+| **Patlama Yarıçapı** | Bir bağımlılık ele geçirilirse kaç dosyanın etkileneceğini gösterir |
+| **Typosquat Tespiti** | 1.847+ bilinen paket + canlı npm registry sorgusu ile şüpheli isimleri yakalar |
+| **Trend Tahmini** | İndirme/commit/release trendlerine dayalı 3 aylık risk projeksiyonu |
+| **Göç Danışmanı** | 131 paket eşleşmesi ve 192 daha güvenli alternatif önerisi |
+| **Çevrimdışı Mod** | İnternet olmadan önbellekten çalışır (`--offline`) |
+| **MCP Sunucusu** | Claude Code ile doğal dilde bağımlılık sorgulama |
+| **Çoklu Format** | Terminal (renkli ağaç), HTML, JSON ve SARIF çıktısı |
+| **GitHub Action** | CI/CD pipeline'ında otomatik güven kontrolü |
 
-## Kullanim
+## Kullanım
 
 ```bash
 # Mevcut projeyi tara
 dep-oracle scan
 
-# Farkli formatlarda cikti al
+# Farklı formatlarda çıktı al
 dep-oracle scan --format json
 dep-oracle scan --format html
 dep-oracle scan --format sarif
@@ -82,71 +82,71 @@ dep-oracle scan --format sarif
 dep-oracle check lodash
 dep-oracle check express@4.18.2
 
-# Cevrimdisi mod (yalnizca onbellek kullanilir)
+# Çevrimdışı mod (yalnızca önbellek kullanılır)
 dep-oracle scan --offline
 
-# Minimum skor esigi belirle (altindaysa cikis kodu 1)
+# Minimum skor eşiği belirle (altındaysa çıkış kodu 1)
 dep-oracle scan --threshold 60
 
 # Belirli paketleri yoksay
 dep-oracle scan --ignore deprecated-but-needed,legacy-pkg
 
-# Ayrintili loglama
+# Ayrıntılı loglama
 dep-oracle scan --verbose
 ```
 
-## Cikti Ornegi
+## Çıktı Örneği
 
 ```
 dep-oracle v1.1.0
-package.json taraniyor...
-47 dogrudan bagimlilik, 683 gecisli bagimlilik bulundu
-Veri toplaniyor... [=============================] 100% (2.3s)
+package.json taranıyor...
+47 doğrudan bağımlılık, 683 geçişli bağımlılık bulundu
+Veri toplanıyor... [=============================] 100% (2.3s)
 
-BAGIMLILIK GUVEN RAPORU
+BAĞIMLILIK GÜVEN RAPORU
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  KRITIK (skor < 50)
+  KRİTİK (skor < 50)
 
-  ■ event-stream@3.3.6         Skor: 12  ZOMBI
+  ■ event-stream@3.3.6         Skor: 12  ZOMBİ
     Son commit: 2018 | 0 aktif maintainer
-    Patlama yaricapi: 14 dosya | Alternatif: highland
+    Patlama yarıçapı: 14 dosya | Alternatif: highland
 
   UYARI (skor 50-79)
 
-  ■ moment@2.29.4              Skor: 58  ZOMBI
-    Bakim modunda | Yeni ozellik yok
-    Patlama yaricapi: 23 dosya | Alternatif: dayjs, date-fns, luxon
+  ■ moment@2.29.4              Skor: 58  ZOMBİ
+    Bakım modunda | Yeni özellik yok
+    Patlama yarıçapı: 23 dosya | Alternatif: dayjs, date-fns, luxon
 
-  GUVENLI (skor 80+): 679 paket
+  GÜVENLİ (skor 80+): 679 paket
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OZET
-  Genel Guven Skoru: 74/100
-  Kritik: 2 | Uyari: 3 | Guvenli: 679
-  Zombi: 2 | Kaldirilmis: 1
+ÖZET
+  Genel Güven Skoru: 74/100
+  Kritik: 2 | Uyarı: 3 | Güvenli: 679
+  Zombi: 2 | Kaldırılmış: 1
 ```
 
-## Guven Skoru Algoritmasi
+## Güven Skoru Algoritması
 
-Her paket, alti agirlikli metrige gore 0-100 arasi puanlanir:
+Her paket, altı ağırlıklı metriğe göre 0-100 arası puanlanır:
 
-| Metrik | Agirlik | Neyi Olcer |
+| Metrik | Ağırlık | Neyi Ölçer |
 |--------|---------|------------|
-| Guvenlik Gecmisi | %25 | CVE sayisi (azalan ceza modeli), ortalama yama suresi, hizli yama bonusu |
-| Maintainer Sagligi | %25 | Aktif maintainer sayisi (bus factor), issue yanit suresi, PR merge hizi |
-| Aktivite | %20 | Commit frekans trendi, surum kadansi, son yayinlama tarihi |
-| Popularite | %15 | Haftalik indirme, bagimli paket sayisi, GitHub yildizlari |
+| Güvenlik Geçmişi | %25 | CVE sayısı (azalan ceza modeli), ortalama yama süresi, hızlı yama bonusu |
+| Maintainer Sağlığı | %25 | Aktif maintainer sayısı (bus factor), issue yanıt süresi, PR merge hızı |
+| Aktivite | %20 | Commit frekans trendi, sürüm kadansı, son yayınlama tarihi |
+| Popülarite | %15 | Haftalık indirme, bağımlı paket sayısı, GitHub yıldızları |
 | Fonlama | %10 | GitHub Sponsors, OpenCollective, kurumsal destek |
-| Lisans | %5 | MIT/Apache = guvenli, GPL = risk, Bilinmeyen = kirmizi bayrak |
+| Lisans | %5 | MIT/Apache = güvenli, GPL = risk, Bilinmeyen = kırmızı bayrak |
 
-**Skor Araliklari:** 80-100 Guvenli | 50-79 Uyari | 0-49 Kritik
+**Skor Aralıkları:** 80-100 Güvenli | 50-79 Uyarı | 0-49 Kritik
 
-### Guvenlik Puanlamasi (v1.1.0)
+### Güvenlik Puanlaması (v1.1.0)
 
-Guvenlik metrigi **azalan ceza** modeli kullanir -- ilk guvenlik acigi en yuksek etkiye sahiptir, sonrakiler giderek azalan etkiye sahip olur:
+Güvenlik metriği **azalan ceza** modeli kullanır — ilk güvenlik açığı en yüksek etkiye sahiptir, sonrakiler giderek azalan etkiye sahip olur:
 
-| Guvenlik Acigi Sayisi | Guvenlik Puani |
+| Güvenlik Açığı Sayısı | Güvenlik Puanı |
 |-----------------------|----------------|
 | 0 | 100 |
 | 1 | 85 |
@@ -155,42 +155,42 @@ Guvenlik metrigi **azalan ceza** modeli kullanir -- ilk guvenlik acigi en yuksek
 | 4 | 50 |
 | 5+ | max(20, 100 - n*12) |
 
-Guvenlik aciklarini hizlica yamayan paketler (7 gun icinde) **+10 bonus** alir. Daha yavas yamalar (30 gun icinde) **+5 bonus** alir.
+Güvenlik açıklarını hızlıca yamayan paketler (7 gün içinde) **+10 bonus** alır. Daha yavaş yamalar (30 gün içinde) **+5 bonus** alır.
 
-### Skor Nasil Hesaplaniyor?
+### Skor Nasıl Hesaplanıyor?
 
-Ornegin lodash paketini ele alalim:
+Örneğin lodash paketini ele alalım:
 
-- Guvenlik Gecmisi: Bilinen CVE'ler az, yamalar hizli -> 85 puan (x0.25 = 21.25)
-- Maintainer Sagligi: Aktif maintainer'lar var ama sinirli -> 70 puan (x0.25 = 17.5)
-- Aktivite: Son surum yakin tarihli -> 80 puan (x0.20 = 16)
-- Popularite: Milyonlarca haftalik indirme -> 95 puan (x0.15 = 14.25)
-- Fonlama: OpenCollective destegi var -> 60 puan (x0.10 = 6)
-- Lisans: MIT -> 100 puan (x0.05 = 5)
+- Güvenlik Geçmişi: Bilinen CVE'ler az, yamalar hızlı → 85 puan (x0.25 = 21.25)
+- Maintainer Sağlığı: Aktif maintainer'lar var ama sınırlı → 70 puan (x0.25 = 17.5)
+- Aktivite: Son sürüm yakın tarihli → 80 puan (x0.20 = 16)
+- Popülarite: Milyonlarca haftalık indirme → 95 puan (x0.15 = 14.25)
+- Fonlama: OpenCollective desteği var → 60 puan (x0.10 = 6)
+- Lisans: MIT → 100 puan (x0.05 = 5)
 
-**Toplam: 80/100 -- Guvenli**
+**Toplam: 80/100 — Güvenli**
 
-### Hassas Bozulma (Graceful Degradation)
+### Zarif Bozulma (Graceful Degradation)
 
-Bir API erisilemediyse (GitHub kapali, internet yok, rate limit), dep-oracle cokmez. Eksik metrik agirligi diger mevcut metriklere dagilir. 3+ metrik kullanilama durumunda guvenilirlik uyarisi gosterilir.
+Bir API erişilemediyse (GitHub kapalı, internet yok, rate limit), dep-oracle çökmez. Eksik metrik ağırlığı diğer mevcut metriklere dağılır. 3+ metrik kullanılamaz durumda ise güvenilirlik uyarısı gösterilir.
 
 ## Typosquat Tespiti
 
-dep-oracle, typosquatting'i yakalamak icin cok katmanli bir yaklasim kullanir:
+dep-oracle, typosquatting'i yakalamak için çok katmanlı bir yaklaşım kullanır:
 
-1. **Statik kayit** -- 40+ kategoride 1.847+ bilinen populer paket adi (React, Vue, Angular, Express, test araclari, CLI araclari vb.)
-2. **Dinamik npm sorgusu** -- npm'den en cok indirilen 5.000 paketi ceker ve 7 gun boyunca onbellegine alir
-3. **Oruntu eslestirme** -- Levenshtein mesafesi, onek/sonek manipulasyonu, karakter degisimi, eksik/fazla harf tespiti
+1. **Statik kayıt** — 40+ kategoride 1.847+ bilinen popüler paket adı (React, Vue, Angular, Express, test araçları, CLI araçları vb.)
+2. **Dinamik npm sorgusu** — npm'den en çok indirilen 5.000 paketi çeker ve 7 gün boyunca önbelleğine alır
+3. **Örüntü eşleştirme** — Levenshtein mesafesi, önek/sonek manipülasyonu, karakter değişimi, eksik/fazla harf tespiti
 
 ```bash
 dep-oracle check expresss    # Yakalar: "express"e benzer (mesafe: 1)
 dep-oracle check lodashe     # Yakalar: "lodash"a benzer (mesafe: 1)
-dep-oracle check react-js    # Yakalar: "react" sonek oruntusu
+dep-oracle check react-js    # Yakalar: "react" sonek örüntüsü
 ```
 
-## Goc Danismani
+## Göç Danışmanı
 
-Bir paket dusuk skor aldiginda veya zombi olarak isaretlendiginde, dep-oracle **131 paket eslesmesi** ve **192 alternatif** iceren kuratorlu bir veritabanindan daha guvenli secenekler onerir:
+Bir paket düşük skor aldığında veya zombi olarak işaretlendiğinde, dep-oracle **131 paket eşleşmesi** ve **192 alternatif** içeren küratörlü bir veritabanından daha güvenli seçenekler önerir:
 
 ```
 moment     → dayjs, date-fns, luxon
@@ -202,11 +202,11 @@ mocha      → vitest, jest, node:test
 ...ve 125 paket daha
 ```
 
-Her oneri zorluk derecesi (kolay/orta/zor) ve goc baglami icerir.
+Her öneri zorluk derecesi (kolay/orta/zor) ve göç bağlamı içerir.
 
 ## Claude Code Entegrasyonu (MCP)
 
-dep-oracle, Claude Code icin bir MCP sunucusu olarak calisir:
+dep-oracle, Claude Code için bir MCP sunucusu olarak çalışır:
 
 ```json
 // .claude/settings.json
@@ -220,28 +220,28 @@ dep-oracle, Claude Code icin bir MCP sunucusu olarak calisir:
 }
 ```
 
-Ayarladiktan sonra Claude Code icinde dogrudan sorabilirsiniz:
+Ayarladıktan sonra Claude Code içinde doğrudan sorabilirsiniz:
 
-- *"Bu projedeki en riskli bagimlilik hangisi?"*
-- *"lodash kullanmak guvenli mi?"*
-- *"Zombi bagimliliklari goster"*
-- *"moment.js icin alternatif oner"*
-- *"Guven skoru 50'nin altindaki paketleri listele"*
+- *"Bu projedeki en riskli bağımlılık hangisi?"*
+- *"lodash kullanmak güvenli mi?"*
+- *"Zombi bağımlılıkları göster"*
+- *"moment.js için alternatif öner"*
+- *"Güven skoru 50'nin altındaki paketleri listele"*
 
-**Mevcut MCP Araclari:**
+**Mevcut MCP Araçları:**
 
-| Arac | Aciklama |
+| Araç | Açıklama |
 |------|----------|
-| `dep_oracle_scan` | Tam proje bagimlilik taramasi |
-| `dep_oracle_trust_score` | Tek paket guven skoru |
+| `dep_oracle_scan` | Tam proje bağımlılık taraması |
+| `dep_oracle_trust_score` | Tek paket güven skoru |
 | `dep_oracle_blast_radius` | Paket etki analizi |
-| `dep_oracle_zombies` | Tum zombi bagimliliklari listele |
-| `dep_oracle_suggest_migration` | Alternatif paket onerileri |
+| `dep_oracle_zombies` | Tüm zombi bağımlılıkları listele |
+| `dep_oracle_suggest_migration` | Alternatif paket önerileri |
 
 ## GitHub Action
 
 ```yaml
-name: Bagimlilik Guven Kontrolu
+name: Bağımlılık Güven Kontrolü
 on: [pull_request]
 
 jobs:
@@ -255,14 +255,14 @@ jobs:
           format: sarif
 ```
 
-Bu konfigurasyonla:
-- Her PR'da otomatik bagimlilik taramasi yapilir
-- Guven skoru 60'in altindaki paketler icin uyari verilir
-- SARIF formatinda cikti uretilir ve GitHub Security sekmesinde goruntulenir
+Bu konfigürasyonla:
+- Her PR'da otomatik bağımlılık taraması yapılır
+- Güven skoru 60'ın altındaki paketler için uyarı verilir
+- SARIF formatında çıktı üretilir ve GitHub Security sekmesinde görüntülenir
 
-## Konfigurasyon
+## Konfigürasyon
 
-Proje kokunde `.dep-oraclerc.json` dosyasi olusturun:
+Proje kökünde `.dep-oraclerc.json` dosyası oluşturun:
 
 ```json
 {
@@ -275,7 +275,7 @@ Proje kokunde `.dep-oraclerc.json` dosyasi olusturun:
 }
 ```
 
-Ya da `package.json` icinde tanimlayabilirsiniz:
+Ya da `package.json` içinde tanımlayabilirsiniz:
 
 ```json
 {
@@ -286,20 +286,20 @@ Ya da `package.json` icinde tanimlayabilirsiniz:
 }
 ```
 
-### Konfigurasyon Secenekleri
+### Konfigürasyon Seçenekleri
 
-| Secenek | Varsayilan | Aciklama |
+| Seçenek | Varsayılan | Açıklama |
 |---------|-----------|----------|
-| `threshold` | `60` | Minimum guven skoru esigi. Altindaki paketler uyari verir ve sifir olmayan cikis kodu dondurur |
-| `ignore` | `[]` | Tarama disinda tutulacak paket listesi |
-| `format` | `"terminal"` | Cikti formati: `terminal`, `json`, `html`, `sarif` |
-| `offline` | `false` | Cevrimdisi mod. Yalnizca onbellek kullanilir, API cagrisi yapilmaz |
-| `githubToken` | `null` | GitHub API rate limit'i artirmak icin token (5000/saat vs 60/saat) |
-| `cacheTtl` | `86400` | Onbellek gecerlilik suresi (saniye cinsinden, varsayilan: 24 saat) |
+| `threshold` | `60` | Minimum güven skoru eşiği. Altındaki paketler uyarı verir ve sıfır olmayan çıkış kodu döndürür |
+| `ignore` | `[]` | Tarama dışında tutulacak paket listesi |
+| `format` | `"terminal"` | Çıktı formatı: `terminal`, `json`, `html`, `sarif` |
+| `offline` | `false` | Çevrimdışı mod. Yalnızca önbellek kullanılır, API çağrısı yapılmaz |
+| `githubToken` | `null` | GitHub API rate limit'i artırmak için token (5000/saat vs 60/saat) |
+| `cacheTtl` | `86400` | Önbellek geçerlilik süresi (saniye cinsinden, varsayılan: 24 saat) |
 
-## Desteklenen Paket Yoneticileri
+## Desteklenen Paket Yöneticileri
 
-| Yonetici | Manifest Dosyasi | Kilit Dosyasi | Durum |
+| Yönetici | Manifest Dosyası | Kilit Dosyası | Durum |
 |----------|-------------------|---------------|-------|
 | npm | `package.json` | `package-lock.json` | Destekleniyor |
 | yarn | `package.json` | `yarn.lock` | Destekleniyor |
@@ -307,21 +307,21 @@ Ya da `package.json` icinde tanimlayabilirsiniz:
 | pip | `requirements.txt` | `Pipfile.lock` | Destekleniyor |
 | poetry | `pyproject.toml` | `poetry.lock` | Destekleniyor |
 
-## Karsilastirma
+## Karşılaştırma
 
-| Ozellik | npm audit | Dependabot | Socket.dev | Snyk | **dep-oracle** |
+| Özellik | npm audit | Dependabot | Socket.dev | Snyk | **dep-oracle** |
 |---------|-----------|------------|------------|------|----------------|
-| Bilinen CVE taramasi | Var | Var | Var | Var | **Var** |
-| Prediktif risk analizi | Yok | Yok | Kismi | Yok | **Var** |
-| Guven Skoru (0-100) | Yok | Yok | Yok | Yok | **Var** |
+| Bilinen CVE taraması | Var | Var | Var | Var | **Var** |
+| Prediktif risk analizi | Yok | Yok | Kısmi | Yok | **Var** |
+| Güven Skoru (0-100) | Yok | Yok | Yok | Yok | **Var** |
 | Zombi tespiti | Yok | Yok | Yok | Yok | **Var** |
-| Patlama yaricapi | Yok | Yok | Yok | Yok | **Var** |
+| Patlama yarıçapı | Yok | Yok | Yok | Yok | **Var** |
 | Typosquat tespiti | Yok | Yok | Var | Yok | **Var** |
 | Trend tahmini | Yok | Yok | Yok | Yok | **Var** |
-| Goc danismani | Yok | Kismi | Yok | Kismi | **Var (131 paket)** |
+| Göç danışmanı | Yok | Kısmi | Yok | Kısmi | **Var (131 paket)** |
 | MCP entegrasyonu | Yok | Yok | Var | Var | **Var** |
-| Sifir kurulum (npx) | Var | Yok | Yok | Yok | **Var** |
-| Ucretsiz ve acik kaynak | Var | Var | Freemium | Freemium | **Var** |
+| Sıfır kurulum (npx) | Var | Yok | Yok | Yok | **Var** |
+| Ücretsiz ve açık kaynak | Var | Var | Freemium | Freemium | **Var** |
 
 ## Programatik API
 
@@ -339,61 +339,61 @@ console.log(result.isZombie);   // false
 
 ## Test Suite
 
-dep-oracle kapsamli test kapsamisina sahiptir:
+dep-oracle kapsamlı test kapsamına sahiptir:
 
 ```
-10 test dosyasi | 144 test | %100 basarili
+10 test dosyası | 144 test | %100 başarılı
 
   trust-score.test.ts     34 test   Puanlama motoru, metrikler, kenar durumlar
-  zombie-detector.test.ts 10 test   Zombi tespit mantigi
-  typosquat.test.ts       15 test   Typosquat oruntu eslestirme
-  migration-advisor.test.ts 12 test Goc onerileri
+  zombie-detector.test.ts 10 test   Zombi tespit mantığı
+  typosquat.test.ts       15 test   Typosquat örüntü eşleştirme
+  migration-advisor.test.ts 12 test Göç önerileri
   trend-predictor.test.ts 10 test   Trend tahmin motoru
-  parsers.test.ts         17 test   npm + Python parser'lari
-  cache.test.ts           15 test   Onbellek islemleri
-  logger.test.ts          17 test   Logger yardimci araci
+  parsers.test.ts         17 test   npm + Python parser'ları
+  cache.test.ts           15 test   Önbellek işlemleri
+  logger.test.ts          17 test   Logger yardımcı aracı
   rate-limiter.test.ts    6 test    Rate limiter
-  schema.test.ts          8 test    Zod sema dogrulama
+  schema.test.ts          8 test    Zod şema doğrulama
 ```
 
 ```bash
-npm test          # Tum testleri calistir
-npm run lint      # TypeScript tip kontrolu
+npm test          # Tüm testleri çalıştır
+npm run lint      # TypeScript tip kontrolü
 ```
 
-## Degisiklik Gunlugu
+## Değişiklik Günlüğü
 
 ### v1.1.0 (2025-02-22)
 
-- **Typosquat Tespiti**: 40+ kategoride 1.847+ bilinen pakete genisletildi, ayrica dinamik npm registry sorgusu eklendi (en populer 5.000 paket, 7 gunluk onbellek)
-- **Goc Danismani**: 131 paket eslesmesi ve 192 daha guvenli alternatife genisletildi
-- **Guven Skoru Kalibrasyonu**: Azalan guvenlik acigi cezasi (ilk CVE en yuksek etki), hizli yama bonusu (<=7 gun icin +10)
-- **Poetry.lock Destegi**: Python projeleri icin tam poetry.lock ayristirma
-- **Kapsamli Test Suite**: 10 test dosyasi, 144 test -- tum analizciler, parser'lar, onbellek ve yardimci araclari kapsar
-- **Turkce README**: Tam Turkce dokumantasyon
+- **Typosquat Tespiti**: 40+ kategoride 1.847+ bilinen pakete genişletildi, ayrıca dinamik npm registry sorgusu eklendi (en popüler 5.000 paket, 7 günlük önbellek)
+- **Göç Danışmanı**: 131 paket eşleşmesi ve 192 daha güvenli alternatife genişletildi
+- **Güven Skoru Kalibrasyonu**: Azalan güvenlik açığı cezası (ilk CVE en yüksek etki), hızlı yama bonusu (<=7 gün için +10)
+- **Poetry.lock Desteği**: Python projeleri için tam poetry.lock ayrıştırma
+- **Kapsamlı Test Suite**: 10 test dosyası, 144 test — tüm analizörler, parser'lar, önbellek ve yardımcı araçları kapsar
+- **Türkçe README**: Tam Türkçe dokümantasyon
 - **Dinamik CLI Versiyonu**: Versiyon otomatik olarak package.json'dan senkronize edilir
 
 ### v1.0.0 (2025-02-22)
 
-- Ilk surum
-- 6 agirlikli metrikli Guven Skoru motoru
-- npm + Python (pip, poetry, pyproject.toml) parser'lari
-- Zombi tespiti, patlama yaricapi analizi
+- İlk sürüm
+- 6 ağırlıklı metrikli Güven Skoru motoru
+- npm + Python (pip, poetry, pyproject.toml) parser'ları
+- Zombi tespiti, patlama yarıçapı analizi
 - Levenshtein mesafesi ile typosquat tespiti
-- Trend tahmini (3 aylik risk projeksiyonu)
-- Kuratorlu alternatiflerle goc danismani
-- Terminal, HTML, JSON, SARIF cikti formatlari
-- Claude Code entegrasyonu icin MCP sunucusu
-- GitHub Action destegi
-- SQLite uyumlu onbellek ile cevrimdisi mod
-- Rozet ureticisi (SVG)
+- Trend tahmini (3 aylık risk projeksiyonu)
+- Küratörlü alternatiflerle göç danışmanı
+- Terminal, HTML, JSON, SARIF çıktı formatları
+- Claude Code entegrasyonu için MCP sunucusu
+- GitHub Action desteği
+- SQLite uyumlu önbellek ile çevrimdışı mod
+- Rozet üreticisi (SVG)
 
-## Katkida Bulunma
+## Katkıda Bulunma
 
-Katkida bulunmak istiyorsaniz [CONTRIBUTING.md](CONTRIBUTING.md) dosyasina goz atin. Gelistirme ortami kurulumu, kodlama standartlari ve yeni collector/parser/analyzer ekleme rehberi orada.
+Katkıda bulunmak istiyorsanız [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına göz atın. Geliştirme ortamı kurulumu, kodlama standartları ve yeni collector/parser/analyzer ekleme rehberi orada.
 
-Her turlu katki degerlidir: hata bildirimi, dokumantasyon iyilestirmesi, yeni ozellik onerisi veya kod katkisi.
+Her türlü katkı değerlidir: hata bildirimi, dokümantasyon iyileştirmesi, yeni özellik önerisi veya kod katkısı.
 
 ## Lisans
 
-[MIT](LICENSE) -- [Ertugrul Akben](https://ertugrulakben.com)
+[MIT](LICENSE) — [Ertuğrul Akben](https://ertugrulakben.com)
