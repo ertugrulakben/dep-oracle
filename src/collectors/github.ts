@@ -165,7 +165,13 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
 
     if (!match) return null;
 
-    return { owner: match[1], repo: match[2] };
+    const owner = match[1];
+    const repo = match[2];
+    // Validate GitHub owner/repo format
+    const GITHUB_NAME = /^[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?$/;
+    if (!GITHUB_NAME.test(owner) || !GITHUB_NAME.test(repo)) return null;
+
+    return { owner, repo };
   }
 
   // ---------------------------------------------------------------------------

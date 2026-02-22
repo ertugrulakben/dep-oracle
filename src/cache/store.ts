@@ -176,8 +176,13 @@ export class CacheManager {
         const raw = readFileSync(this.filePath, "utf-8");
         return JSON.parse(raw) as CacheStore;
       }
-    } catch {
-      // Corrupted file — start fresh
+    } catch (err) {
+      if (err instanceof SyntaxError) {
+        // Corrupted JSON — start fresh
+      } else {
+        // Log unexpected errors but continue with empty cache
+        console.error(`Cache load error: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
     return {};
   }

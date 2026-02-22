@@ -1,6 +1,6 @@
 {
   "name": "dep-oracle",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "mcpName": "io.github.ertugrulakben/dep-oracle",
   "description": "Predictive dependency security engine. Trust scores, zombie detection, blast radius analysis for your supply chain.",
   "type": "module",
@@ -19,6 +19,7 @@
   "files": [
     "dist",
     "action",
+    "server.json",
     "README.md",
     "LICENSE"
   ],

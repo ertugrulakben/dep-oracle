@@ -51,7 +51,7 @@ function normalizePyPIName(name: string): string {
  */
 function parsePep508(spec: string): { name: string; version: string } | null {
   // Strip inline comments
-  const cleaned = spec.split("#")[0].trim();
+  const cleaned = spec.replace(/\s+#.*$/, '').trim();
   if (!cleaned || cleaned.startsWith("-")) return null;
 
   // Strip environment markers (everything after a bare ";")

@@ -163,12 +163,12 @@ ${JS_CONTENT}
 
     let detailContent = `<div class="detail-grid">`;
     if (metrics) {
-      detailContent += `<div class="metric"><span class="metric-label">Security</span><span class="metric-value">${metrics.security ?? 0}</span></div>`;
-      detailContent += `<div class="metric"><span class="metric-label">Maintainer</span><span class="metric-value">${metrics.maintainer ?? 0}</span></div>`;
-      detailContent += `<div class="metric"><span class="metric-label">Activity</span><span class="metric-value">${metrics.activity ?? 0}</span></div>`;
-      detailContent += `<div class="metric"><span class="metric-label">Popularity</span><span class="metric-value">${metrics.popularity ?? 0}</span></div>`;
-      detailContent += `<div class="metric"><span class="metric-label">Funding</span><span class="metric-value">${metrics.funding ?? 0}</span></div>`;
-      detailContent += `<div class="metric"><span class="metric-label">License</span><span class="metric-value">${metrics.license ?? 0}</span></div>`;
+      detailContent += `<div class="metric"><span class="metric-label">Security</span><span class="metric-value">${this.escapeHtml(String(metrics.security ?? 0))}</span></div>`;
+      detailContent += `<div class="metric"><span class="metric-label">Maintainer</span><span class="metric-value">${this.escapeHtml(String(metrics.maintainer ?? 0))}</span></div>`;
+      detailContent += `<div class="metric"><span class="metric-label">Activity</span><span class="metric-value">${this.escapeHtml(String(metrics.activity ?? 0))}</span></div>`;
+      detailContent += `<div class="metric"><span class="metric-label">Popularity</span><span class="metric-value">${this.escapeHtml(String(metrics.popularity ?? 0))}</span></div>`;
+      detailContent += `<div class="metric"><span class="metric-label">Funding</span><span class="metric-value">${this.escapeHtml(String(metrics.funding ?? 0))}</span></div>`;
+      detailContent += `<div class="metric"><span class="metric-label">License</span><span class="metric-value">${this.escapeHtml(String(metrics.license ?? 0))}</span></div>`;
     }
     if (typoRisk > 0.5) {
       detailContent += `<div class="metric typo-warn"><span class="metric-label">Typosquat Risk</span><span class="metric-value">${Math.round(typoRisk * 100)}%</span></div>`;

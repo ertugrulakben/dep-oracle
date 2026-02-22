@@ -62,6 +62,10 @@ export class TrustScoreEngine {
 
   constructor(weights?: Partial<Record<keyof TrustMetrics, number>>) {
     this.weights = { ...DEFAULT_WEIGHTS, ...weights };
+    const total = Object.values(this.weights).reduce((a, b) => a + b, 0);
+    if (Math.abs(total - 1.0) > 0.01) {
+      throw new Error(`Trust score weights must sum to 1.0, got ${total.toFixed(4)}`);
+    }
   }
 
   /**
@@ -137,16 +141,17 @@ export class TrustScoreEngine {
       score = Math.max(20, 100 - vulns * 12);
     }
 
-    // Patched bonus: if ALL known vulnerabilities have been patched
-    // (averagePatchDays is present and > 0), reward responsible maintenance.
-    if (data.averagePatchDays !== null && data.averagePatchDays > 0) {
+    // Patched bonus: only if vulnerabilities exist AND patch data is available.
+    // averagePatchDays > 0 means at least some vulnerabilities were patched.
+    if (vulns > 0 && data.averagePatchDays !== null && data.averagePatchDays > 0) {
       if (data.averagePatchDays <= 7) {
         // Fast patches: +10 bonus
         score = Math.min(100, score + 10);
-      } else {
-        // Patched but slower: +5 bonus (still better than unpatched)
+      } else if (data.averagePatchDays <= 30) {
+        // Patched within 30 days: +5 bonus
         score = Math.min(100, score + 5);
       }
+      // Patches slower than 30 days: no bonus
     }
 
     return clamp(score);

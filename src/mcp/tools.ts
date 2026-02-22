@@ -36,6 +36,41 @@ import { buildImportGraph, getBlastRadius } from '../utils/graph.js';
 import { JsonReporter } from '../reporters/json.js';
 
 // ---------------------------------------------------------------------------
+// Security: path validation
+// ---------------------------------------------------------------------------
+
+const VALID_PACKAGE_NAME = /^(@[a-z0-9-~][a-z0-9._-~]*\/)?[a-z0-9-~][a-z0-9._-~]*$/i;
+
+function validateDir(input: string | undefined): string {
+  const dir = resolve(String(input ?? process.cwd()));
+  // Block obvious path traversal patterns
+  const normalized = dir.replace(/\\/g, '/');
+  if (normalized.includes('/../') || normalized.endsWith('/..')) {
+    throw new Error('Path traversal not allowed');
+  }
+  return dir;
+}
+
+function validateOutputPath(output: string, baseDir: string): string {
+  const resolved = resolve(output);
+  const base = resolve(baseDir);
+  if (!resolved.startsWith(base)) {
+    throw new Error('Output path must be within the project directory');
+  }
+  return resolved;
+}
+
+function validatePackageName(name: string): string {
+  const trimmed = name.trim();
+  if (!trimmed) throw new Error('Package name is required');
+  if (trimmed.length > 214) throw new Error('Package name too long');
+  if (!VALID_PACKAGE_NAME.test(trimmed)) {
+    throw new Error(`Invalid package name: "${trimmed}"`);
+  }
+  return trimmed;
+}
+
+// ---------------------------------------------------------------------------
 // Shared instances (created once per MCP server lifetime)
 // ---------------------------------------------------------------------------
 
@@ -343,7 +378,7 @@ async function buildTrustReport(
 // ---------------------------------------------------------------------------
 
 async function handleScan(args: Record<string, unknown> | undefined) {
-  const dir = resolve(String(args?.dir ?? process.cwd()));
+  const dir = validateDir(args?.dir as string | undefined);
 
   const tree = await parseProject(dir);
   if (!tree) {
@@ -396,10 +431,7 @@ async function handleScan(args: Record<string, unknown> | undefined) {
 }
 
 async function handleTrustScore(args: Record<string, unknown> | undefined) {
-  const packageName = String(args?.package ?? '');
-  if (!packageName) {
-    return errorResponse('Missing required parameter: "package".');
-  }
+  const packageName = validatePackageName(String(args?.package ?? ''));
 
   const version = String(args?.version ?? 'latest');
   const report = await buildTrustReport(packageName, version);
@@ -407,18 +439,14 @@ async function handleTrustScore(args: Record<string, unknown> | undefined) {
 }
 
 async function handleBlastRadius(args: Record<string, unknown> | undefined) {
-  const packageName = String(args?.package ?? '');
-  if (!packageName) {
-    return errorResponse('Missing required parameter: "package".');
-  }
-
-  const dir = resolve(String(args?.dir ?? process.cwd()));
+  const packageName = validatePackageName(String(args?.package ?? ''));
+  const dir = validateDir(args?.dir as string | undefined);
   const result = await blastRadiusCalc.calculate(packageName, dir);
   return successResponse(result);
 }
 
 async function handleZombies(args: Record<string, unknown> | undefined) {
-  const dir = resolve(String(args?.dir ?? process.cwd()));
+  const dir = validateDir(args?.dir as string | undefined);
 
   const tree = await parseProject(dir);
   if (!tree) {
@@ -468,10 +496,7 @@ async function handleZombies(args: Record<string, unknown> | undefined) {
 }
 
 async function handleSuggestMigration(args: Record<string, unknown> | undefined) {
-  const packageName = String(args?.package ?? '');
-  if (!packageName) {
-    return errorResponse('Missing required parameter: "package".');
-  }
+  const packageName = validatePackageName(String(args?.package ?? ''));
 
   const suggestions = migrationAdvisor.suggest(packageName, 'manual query');
 
@@ -491,10 +516,7 @@ async function handleSuggestMigration(args: Record<string, unknown> | undefined)
 }
 
 async function handleTyposquatCheck(args: Record<string, unknown> | undefined) {
-  const packageName = String(args?.package ?? '');
-  if (!packageName) {
-    return errorResponse('Missing required parameter: "package".');
-  }
+  const packageName = validatePackageName(String(args?.package ?? ''));
 
   const result = typosquatDetector.check(packageName);
   return successResponse({
@@ -504,12 +526,8 @@ async function handleTyposquatCheck(args: Record<string, unknown> | undefined) {
 }
 
 async function handleCompare(args: Record<string, unknown> | undefined) {
-  const packageA = String(args?.packageA ?? '');
-  const packageB = String(args?.packageB ?? '');
-
-  if (!packageA || !packageB) {
-    return errorResponse('Missing required parameters: "packageA" and "packageB".');
-  }
+  const packageA = validatePackageName(String(args?.packageA ?? ''));
+  const packageB = validatePackageName(String(args?.packageB ?? ''));
 
   const [reportA, reportB] = await Promise.all([
     buildTrustReport(packageA, 'latest'),
@@ -532,8 +550,8 @@ async function handleCompare(args: Record<string, unknown> | undefined) {
 }
 
 async function handleReport(args: Record<string, unknown> | undefined) {
-  const dir = resolve(String(args?.dir ?? process.cwd()));
-  const output = args?.output ? resolve(String(args.output)) : null;
+  const dir = validateDir(args?.dir as string | undefined);
+  const output = args?.output ? validateOutputPath(String(args.output), dir) : null;
 
   const tree = await parseProject(dir);
   if (!tree) {

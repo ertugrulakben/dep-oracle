@@ -29,4 +29,17 @@ export default defineConfig([
     shims: true,
     outDir: "dist",
   },
+  // GitHub Action — self-contained bundle
+  {
+    entry: { "action/index": "action/index.ts" },
+    format: ["esm"],
+    target: "node20",
+    platform: "node",
+    sourcemap: false,
+    dts: false,
+    shims: true,
+    banner: { js: "#!/usr/bin/env node" },
+    outDir: "dist",
+    noExternal: [/./],
+  },
 ]);

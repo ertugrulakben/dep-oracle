@@ -21,7 +21,7 @@ const pkgVersion = (() => {
   try {
     return JSON.parse(readFileSync(pkgPath, 'utf-8')).version as string;
   } catch {
-    return '1.1.1';
+    return '1.2.0';
   }
 })();
 

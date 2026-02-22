@@ -1178,14 +1178,14 @@ export class TyposquatDetector {
         const allowed = substitutions[target[i]];
         if (allowed && allowed.includes(input[i])) {
           subCount++;
-          if (subCount > 1) return false; // Only allow one substitution
+          if (subCount > 2) return false; // Allow up to 2 substitutions
         } else {
           return false;
         }
       }
     }
 
-    return subCount === 1;
+    return subCount >= 1 && subCount <= 2;
   }
 }
 

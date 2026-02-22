@@ -103,7 +103,7 @@ dep-oracle scan --verbose
 ## Çıktı Örneği
 
 ```
-dep-oracle v1.1.4
+dep-oracle v1.2.0
 package.json taranıyor...
 47 doğrudan bağımlılık, 683 geçişli bağımlılık bulundu
 Veri toplanıyor... [=============================] 100% (2.3s)
@@ -242,6 +242,9 @@ Ayarladıktan sonra Claude Code içinde doğrudan sorabilirsiniz:
 | `dep_oracle_blast_radius` | Paket etki analizi |
 | `dep_oracle_zombies` | Tüm zombi bağımlılıkları listele |
 | `dep_oracle_suggest_migration` | Alternatif paket önerileri |
+| `dep_oracle_typosquat_check` | Paket adi typosquat risk kontrolu |
+| `dep_oracle_compare` | Iki paketi yan yana karsilastir |
+| `dep_oracle_report` | JSON rapor olustur, opsiyonel dosyaya yaz |
 
 ## GitHub Action
 
@@ -367,6 +370,21 @@ npm run lint      # TypeScript tip kontrolü
 ```
 
 ## Değişiklik Günlüğü
+
+### v1.2.0 (2026-02-22)
+
+- **Guvenlik**: MCP araclarina path traversal korumasi eklendi
+- **Guvenlik**: Paket adi dogrulama (npm adlandirma kurallari)
+- **Guvenlik**: HTML raporcu metrik degerlerinde XSS korumasi
+- **Guvenlik**: GitHub URL parser'da owner/repo format dogrulamasi
+- **Ozellik**: Programatik API — `import { scan, checkPackage } from 'dep-oracle'`
+- **Ozellik**: 3 yeni MCP araci: `dep_oracle_typosquat_check`, `dep_oracle_compare`, `dep_oracle_report` (toplam 8)
+- **Ozellik**: GitHub Action artik dogru sekilde derleniyor
+- **Duzeltme**: Collector timeout (30s) yavas API'lerde takilmayi onler
+- **Duzeltme**: Trust score agirlik dogrulama, patch bonus mantik duzeltmesi
+- **Duzeltme**: Python parser git URL fragment'larini koruyor
+- **Duzeltme**: Typosquat 2 karakterlik homoglyph ikamelerini yakalıyor
+- **Duzeltme**: `server.json` npm paketine dahil edildi
 
 ### v1.1.4 (2026-02-22)
 

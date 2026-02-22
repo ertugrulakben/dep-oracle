@@ -274,8 +274,11 @@ export class FundingCollector extends BaseCollector<FundingData> {
           .split(',')
           .map((s) => s.trim().replace(/['"]/g, ''))
           .filter(Boolean);
+        const GITHUB_USERNAME = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$/;
         for (const sponsor of sponsors) {
-          urls.push(`https://github.com/sponsors/${sponsor}`);
+          if (GITHUB_USERNAME.test(sponsor)) {
+            urls.push(`https://github.com/sponsors/${sponsor}`);
+          }
         }
       }
 

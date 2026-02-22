@@ -117,19 +117,37 @@ export class CollectorOrchestrator {
 
     const results = {} as AllCollectorResults;
 
+    const COLLECTOR_TIMEOUT = 30_000; // 30 seconds per collector
+
     const tasks = entries.map(({ key, collector }) =>
       limit(async () => {
-        const result = this.options.offline
-          ? await this.offlineCollect(collector, packageName, version)
-          : await this.onlineCollect(collector, packageName, version);
+        let result: CollectorResult<unknown>;
 
-        // Log outcome
+        if (this.options.offline) {
+          result = await this.offlineCollect(collector, packageName, version);
+        } else {
+          try {
+            result = await Promise.race([
+              this.onlineCollect(collector, packageName, version),
+              new Promise<never>((_, reject) =>
+                setTimeout(() => reject(new Error('Collector timeout')), COLLECTOR_TIMEOUT),
+              ),
+            ]);
+          } catch {
+            logger.warn(`[${collector.name}] ${packageName}@${version} => timeout (${COLLECTOR_TIMEOUT}ms)`);
+            result = {
+              status: 'error',
+              data: null,
+              error: `Timeout after ${COLLECTOR_TIMEOUT / 1000}s`,
+              collectedAt: new Date().toISOString(),
+            };
+          }
+        }
+
         logger.info(
           `[${collector.name}] ${packageName}@${version} => ${result.status}`,
         );
 
-        // Assign to the results object. The cast is safe because each key
-        // maps 1:1 to its collector's return type.
         (results as unknown as Record<string, CollectorResult<unknown>>)[key] = result;
       }),
     );

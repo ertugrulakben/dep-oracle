@@ -99,7 +99,7 @@ dep-oracle scan --verbose
 ## Output Example
 
 ```
-dep-oracle v1.1.4
+dep-oracle v1.2.0
 Scanning package.json...
 Found 47 direct dependencies, 683 transitive
 Collecting data... [=============================] 100% (2.3s)
@@ -223,6 +223,9 @@ Then in Claude Code, just ask:
 | `dep_oracle_blast_radius` | Impact analysis for a package |
 | `dep_oracle_zombies` | List all zombie dependencies |
 | `dep_oracle_suggest_migration` | Get alternative package suggestions |
+| `dep_oracle_typosquat_check` | Check typosquatting risk for a package name |
+| `dep_oracle_compare` | Compare two packages side-by-side |
+| `dep_oracle_report` | Generate a JSON report, optionally to file |
 
 ## GitHub Action
 
@@ -343,6 +346,24 @@ npm run lint      # TypeScript type checking
 ```
 
 ## Changelog
+
+### v1.2.0 (2026-02-22)
+
+- **Security**: Path traversal protection in MCP tools (validated dir/output paths)
+- **Security**: Package name validation (npm naming rules enforced)
+- **Security**: HTML reporter metric values escaped (XSS defense-in-depth)
+- **Security**: GitHub username/repo validation in URL parser
+- **Security**: GitHub Sponsors username validation in funding collector
+- **Feature**: Programmatic API — `import { scan, checkPackage } from 'dep-oracle'`
+- **Feature**: 3 new MCP tools: `dep_oracle_typosquat_check`, `dep_oracle_compare`, `dep_oracle_report` (8 total)
+- **Feature**: GitHub Action now builds correctly (self-contained bundle)
+- **Fix**: Collector timeout (30s) prevents hanging on slow APIs
+- **Fix**: Trust score weight validation (must sum to 1.0)
+- **Fix**: Patch bonus only applies when vulnerabilities exist
+- **Fix**: Python parser preserves `#egg=` fragments in git URLs
+- **Fix**: Typosquat homoglyph detection now catches 2-character substitutions
+- **Fix**: Cache error handling distinguishes JSON corruption from I/O errors
+- **Fix**: `server.json` now included in npm package for MCP registry
 
 ### v1.1.4 (2026-02-22)
 

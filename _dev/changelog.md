@@ -1,5 +1,31 @@
 # dep-oracle Changelog
 
+## [1.2.0] - 2026-02-22
+
+### Security
+- MCP tools: path traversal protection on `dir` and `output` arguments
+- MCP tools: package name validation (npm naming rules, 214-char limit)
+- HTML reporter: metric values escaped with `escapeHtml()` (XSS defense-in-depth)
+- GitHub collector: owner/repo format validation in URL parser
+- Funding collector: GitHub Sponsors username validation
+
+### Added
+- Programmatic API: `scan()` and `checkPackage()` convenience functions exported from `dep-oracle`
+- 3 new MCP tools: `dep_oracle_typosquat_check`, `dep_oracle_compare`, `dep_oracle_report` (8 tools total)
+- GitHub Action: self-contained bundle via tsup (action now builds and runs correctly)
+- `server.json` included in npm package for MCP registry compatibility
+
+### Fixed
+- Collector timeout (30s) prevents indefinite hang on slow/unresponsive APIs
+- Trust score: weight validation ensures custom weights sum to 1.0
+- Trust score: patch bonus only applies when vulnerabilities exist and patches are within 30 days
+- Python parser: `#egg=` fragments in git URLs no longer stripped by comment removal
+- Typosquat: homoglyph detection expanded to catch 2-character substitutions (e.g. `l0d4sh`)
+- Cache: `SyntaxError` (corrupted JSON) handled separately from unexpected I/O errors
+
+### Changed
+- Version fallbacks updated to 1.2.0 in CLI, MCP server, SARIF reporter
+
 ## [1.1.4] - 2026-02-22
 
 ### Fixed
