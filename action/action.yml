@@ -1,0 +1,21 @@
+name: 'dep-oracle'
+description: 'Predictive dependency security scan — Trust Scores, zombie detection, blast radius analysis'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  min-score:
+    description: 'Minimum trust score threshold (0-100). Packages below this score cause the action to fail.'
+    required: false
+    default: '50'
+  format:
+    description: 'Output format (table, json, sarif)'
+    required: false
+    default: 'table'
+  github-token:
+    description: 'GitHub token for API rate limits'
+    required: false
+    default: '${{ github.token }}'
+runs:
+  using: 'node20'
+  main: 'index.js'

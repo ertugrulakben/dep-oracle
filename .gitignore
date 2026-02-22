@@ -1,0 +1,22 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.turbo/
+coverage/
+
+# Cache
+.dep-oracle/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
