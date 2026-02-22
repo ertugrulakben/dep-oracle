@@ -28,7 +28,7 @@ const pkgVersion = (() => {
     const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
     return pkg.version as string;
   } catch {
-    return '1.2.0';
+    return '1.2.1';
   }
 })();
 
@@ -48,6 +48,13 @@ const program = new Command()
 
 program.addCommand(createScanCommand());
 program.addCommand(createCheckCommand());
+
+program
+  .command('mcp')
+  .description('Start MCP server for AI assistant integration')
+  .action(async () => {
+    await import('../mcp/server.js');
+  });
 
 // Default to scan if no command is specified
 program.action(async (_opts, _cmd) => {
