@@ -12,14 +12,30 @@
  */
 
 import { Command } from 'commander';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { createScanCommand } from './commands/scan.js';
 import { createCheckCommand } from './commands/check.js';
 import { setVerbose } from '../utils/logger.js';
 
+// Read version from package.json so it's always in sync
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const pkgPath = join(__dirname, '..', '..', 'package.json');
+const pkgVersion = (() => {
+  try {
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+    return pkg.version as string;
+  } catch {
+    return '1.1.0';
+  }
+})();
+
 const program = new Command()
   .name('dep-oracle')
   .description('Predictive dependency security engine')
-  .version('1.0.0')
+  .version(pkgVersion)
   .option('--verbose', 'Enable verbose logging output')
   .hook('preAction', (_thisCommand, actionCommand) => {
     // Check for --verbose on the root or the subcommand

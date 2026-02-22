@@ -68,7 +68,9 @@ async function runCheck(packageArg: string, opts: CheckOptions): Promise<number>
     });
     const trustEngine = new TrustScoreEngine(config.weights);
     const zombieDetector = new ZombieDetector();
-    const typosquatDetector = new TyposquatDetector();
+    const typosquatDetector = opts.offline
+      ? new TyposquatDetector()
+      : await TyposquatDetector.createWithRegistry();
     const trendPredictor = new TrendPredictor();
     const migrationAdvisor = new MigrationAdvisor();
 

@@ -117,14 +117,36 @@ export class TrustScoreEngine {
   calculateSecurityScore(data: SecurityData | null): number {
     if (data === null) return NA_SCORE;
 
-    let score = 100;
+    const vulns = data.totalVulnerabilities;
 
-    // Each vulnerability subtracts 15 points
-    score -= data.totalVulnerabilities * 15;
+    // Diminishing penalty scale -- popular packages accumulate CVEs over time,
+    // so a flat per-vuln penalty is unreasonably harsh.
+    let score: number;
+    if (vulns === 0) {
+      score = 100;
+    } else if (vulns === 1) {
+      score = 85;
+    } else if (vulns === 2) {
+      score = 72;
+    } else if (vulns === 3) {
+      score = 60;
+    } else if (vulns === 4) {
+      score = 50;
+    } else {
+      // 5+ vulns: diminishing penalty with a floor of 20
+      score = Math.max(20, 100 - vulns * 12);
+    }
 
-    // Fast patch time bonus: if average patch days <= 7, add up to 5
-    if (data.averagePatchDays !== null && data.averagePatchDays > 0 && data.averagePatchDays <= 7) {
-      score = Math.min(100, score + 5);
+    // Patched bonus: if ALL known vulnerabilities have been patched
+    // (averagePatchDays is present and > 0), reward responsible maintenance.
+    if (data.averagePatchDays !== null && data.averagePatchDays > 0) {
+      if (data.averagePatchDays <= 7) {
+        // Fast patches: +10 bonus
+        score = Math.min(100, score + 10);
+      } else {
+        // Patched but slower: +5 bonus (still better than unpatched)
+        score = Math.min(100, score + 5);
+      }
     }
 
     return clamp(score);
@@ -210,11 +232,12 @@ export class TrustScoreEngine {
 
     const dl = data.weeklyDownloads;
 
-    if (dl >= 1_000_000) return 100;
-    if (dl >= 100_000) return 85;
-    if (dl >= 10_000) return 70;
-    if (dl >= 1_000) return 50;
-    if (dl >= 100) return 30;
+    if (dl >= 10_000_000) return 100;
+    if (dl >= 1_000_000) return 90;
+    if (dl >= 100_000) return 75;
+    if (dl >= 10_000) return 60;
+    if (dl >= 1_000) return 40;
+    if (dl >= 100) return 25;
     return 10;
   }
 

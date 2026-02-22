@@ -286,6 +286,62 @@ function parsePipfileLock(
 }
 
 // ---------------------------------------------------------------------------
+// poetry.lock parser (regex-based, no TOML library)
+// ---------------------------------------------------------------------------
+
+/**
+ * Parse a poetry.lock file to extract package names and versions.
+ *
+ * poetry.lock uses a TOML-like format with repeated `[[package]]` blocks.
+ * Each block has `name = "..."` and `version = "..."` lines.  We use regex
+ * to split on `[[package]]` headers and extract the fields we need.
+ *
+ * Packages that match an already-known direct dependency (from pyproject.toml
+ * or requirements.txt) are marked `isDirect: true, depth: 0`.  All others are
+ * treated as transitive (`depth: 1`).
+ */
+function parsePoetryLock(content: string, tree: DependencyTree): void {
+  // Collect names of already-known direct dependencies so we can cross-ref
+  const directNames = new Set<string>();
+  for (const node of tree.nodes.values()) {
+    if (node.isDirect) {
+      directNames.add(node.name);
+    }
+  }
+
+  // Split on [[package]] headers.  The first element is everything before the
+  // first header (metadata / preamble) which we skip.
+  const blocks = content.split(/^\[\[package\]\]\s*$/m);
+
+  for (const block of blocks) {
+    const nameMatch = block.match(/^\s*name\s*=\s*"([^"]+)"/m);
+    const versionMatch = block.match(/^\s*version\s*=\s*"([^"]+)"/m);
+
+    if (!nameMatch) continue;
+
+    const name = normalizePyPIName(nameMatch[1]);
+    const version = versionMatch ? versionMatch[1] : "*";
+
+    const isDirect = directNames.has(name);
+    const key = `${name}@${version}`;
+
+    if (tree.nodes.has(key)) continue;
+
+    tree.nodes.set(
+      key,
+      createDependencyNode({
+        name,
+        version,
+        registry: "pypi",
+        depth: isDirect ? 0 : 1,
+        isDirect,
+        parent: null,
+      }),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
 // PythonParser
 // ---------------------------------------------------------------------------
 
@@ -297,6 +353,7 @@ export class PythonParser extends BaseParser {
       fileExists(join(dir, "requirements.txt")),
       fileExists(join(dir, "pyproject.toml")),
       fileExists(join(dir, "Pipfile")),
+      fileExists(join(dir, "poetry.lock")),
     ]);
     return checks.some(Boolean);
   }
@@ -305,6 +362,7 @@ export class PythonParser extends BaseParser {
     const reqPath = join(dir, "requirements.txt");
     const pyprojectPath = join(dir, "pyproject.toml");
     const pipfileLockPath = join(dir, "Pipfile.lock");
+    const poetryLockPath = join(dir, "poetry.lock");
 
     // Determine manifest path for the tree metadata
     let manifestPath = dir;
@@ -338,6 +396,12 @@ export class PythonParser extends BaseParser {
     if (await fileExists(pipfileLockPath)) {
       const lockData = await readJson<PipfileLockJson>(pipfileLockPath);
       parsePipfileLock(lockData, tree);
+    }
+
+    // If poetry.lock exists, parse locked dependencies from it
+    if (await fileExists(poetryLockPath)) {
+      const content = await readText(poetryLockPath);
+      parsePoetryLock(content, tree);
     }
 
     // Recount totals

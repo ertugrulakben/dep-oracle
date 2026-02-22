@@ -1,3 +1,5 @@
+🌍 **English** | [Turkce](README.tr.md)
+
 # dep-oracle 🔮
 
 > Your dependencies have dependencies. Who's watching them?

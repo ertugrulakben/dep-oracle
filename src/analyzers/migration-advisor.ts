@@ -372,6 +372,1176 @@ const MIGRATION_MAP: Record<string, MigrationEntry[]> = {
       difficulty: 'easy',
     },
   ],
+
+  // ---------------------------------------------------------------------------
+  // left-pad (infamous, now unnecessary)
+  // ---------------------------------------------------------------------------
+  'left-pad': [
+    {
+      alternative: 'String.prototype.padStart',
+      description: 'Built-in ES2017 String method. Native replacement, zero dependencies.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // querystring (deprecated Node.js built-in)
+  // ---------------------------------------------------------------------------
+  'querystring': [
+    {
+      alternative: 'URLSearchParams',
+      description: 'Web-standard URL query string API built into Node.js. Handles encoding/decoding correctly.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // request-promise / request-promise-native (deprecated with request)
+  // ---------------------------------------------------------------------------
+  'request-promise': [
+    {
+      alternative: 'got',
+      description: 'Modern HTTP client with native Promise support, retries, and hooks. request is fully deprecated.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'axios',
+      description: 'Promise-based HTTP client for Node.js and browsers. Familiar interceptor API.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: 'undici',
+      description: 'Official Node.js HTTP client built into Node 18+. High performance, standards-based.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'request-promise-native': [
+    {
+      alternative: 'got',
+      description: 'Modern HTTP client with native Promise support. No wrapper needed, request is deprecated.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'undici',
+      description: 'Official Node.js HTTP client built into Node 18+. Standards-based fetch API.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // node-sass (deprecated in favor of Dart Sass)
+  // ---------------------------------------------------------------------------
+  'node-sass': [
+    {
+      alternative: 'sass',
+      description: 'Dart Sass is the primary implementation of Sass. node-sass is deprecated. API is compatible for most use cases.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // PhantomJS (abandoned)
+  // ---------------------------------------------------------------------------
+  'phantomjs': [
+    {
+      alternative: 'playwright',
+      description: 'Modern browser automation by Microsoft. Supports Chromium, Firefox, and WebKit. Actively maintained.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'puppeteer',
+      description: 'Chrome/Chromium automation by Google. Headless browser testing and scraping.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'phantomjs-prebuilt': [
+    {
+      alternative: 'playwright',
+      description: 'Modern browser automation supporting multiple browsers. PhantomJS is abandoned and insecure.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'puppeteer',
+      description: 'Headless Chrome automation. Direct replacement for PhantomJS browser scripting use cases.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // merge (unmaintained shallow merge)
+  // ---------------------------------------------------------------------------
+  'merge': [
+    {
+      alternative: 'deepmerge',
+      description: 'Deep merge utility with support for arrays, Maps, and Sets. Actively maintained.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: 'lodash.merge',
+      description: 'Well-tested deep merge from lodash. Handles circular references and complex objects.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // minimatch (old versions with ReDoS)
+  // ---------------------------------------------------------------------------
+  'minimatch': [
+    {
+      alternative: 'picomatch',
+      description: 'Fast and accurate glob matcher. Better performance and no ReDoS vulnerabilities.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: 'micromatch',
+      description: 'Feature-rich glob matcher built on picomatch. Supports extended globs and brace expansion.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // har-validator (deprecated)
+  // ---------------------------------------------------------------------------
+  'har-validator': [
+    {
+      alternative: 'har-schema',
+      description: 'Use the HAR schema directly with ajv or zod for validation. har-validator is unmaintained.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // graphql-tools (old monolithic Apollo package)
+  // ---------------------------------------------------------------------------
+  'graphql-tools': [
+    {
+      alternative: '@graphql-tools/schema',
+      description: 'Modular GraphQL Tools packages. Import only what you need from the scoped @graphql-tools/* packages.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // enzyme (React testing, abandoned)
+  // ---------------------------------------------------------------------------
+  'enzyme': [
+    {
+      alternative: '@testing-library/react',
+      description: 'Testing Library encourages testing user behavior instead of implementation details. React recommended approach.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'enzyme-adapter-react-16': [
+    {
+      alternative: '@testing-library/react',
+      description: 'Enzyme adapters are no longer maintained for newer React. Testing Library works with all React versions.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // sinon (test doubles)
+  // ---------------------------------------------------------------------------
+  'sinon': [
+    {
+      alternative: 'vitest',
+      description: 'Vitest includes built-in vi.fn(), vi.spyOn(), and vi.mock() for mocking. No separate library needed.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'jest',
+      description: 'Jest includes built-in jest.fn(), jest.spyOn(), and jest.mock(). No separate mocking library needed.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // karma (test runner for browsers)
+  // ---------------------------------------------------------------------------
+  'karma': [
+    {
+      alternative: 'vitest',
+      description: 'Fast Vite-native test runner with browser mode. Replaces Karma for both unit and browser testing.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'jest',
+      description: 'Zero-config test framework with jsdom for DOM testing. No browser process required.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // jasmine
+  // ---------------------------------------------------------------------------
+  'jasmine': [
+    {
+      alternative: 'vitest',
+      description: 'Modern test runner with Jest-compatible API. Faster execution, ESM support, built-in coverage.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'jest',
+      description: 'Feature-rich test framework. Similar describe/it syntax, built-in mocking and assertions.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // tape
+  // ---------------------------------------------------------------------------
+  'tape': [
+    {
+      alternative: 'vitest',
+      description: 'Modern test runner with a rich assertion API. Supports TAP output via reporters if needed.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // ava
+  // ---------------------------------------------------------------------------
+  'ava': [
+    {
+      alternative: 'vitest',
+      description: 'Vitest offers similar parallel test execution with better IDE integration and watch mode.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // nyc (Istanbul CLI)
+  // ---------------------------------------------------------------------------
+  'nyc': [
+    {
+      alternative: 'c8',
+      description: 'Native V8 code coverage using NODE_V8_COVERAGE. No instrumentation, faster and more accurate.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // node-fetch / cross-fetch / isomorphic-fetch (native fetch in Node 18+)
+  // ---------------------------------------------------------------------------
+  'node-fetch': [
+    {
+      alternative: 'native fetch',
+      description: 'Node.js 18+ includes a global fetch() based on undici. No polyfill needed for modern Node.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'cross-fetch': [
+    {
+      alternative: 'native fetch',
+      description: 'Node.js 18+ and all modern browsers support fetch() natively. Polyfill no longer needed.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'isomorphic-fetch': [
+    {
+      alternative: 'native fetch',
+      description: 'Global fetch() is available in Node.js 18+ and all modern browsers. Remove the polyfill.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'isomorphic-unfetch': [
+    {
+      alternative: 'native fetch',
+      description: 'Minimal fetch polyfill no longer needed. Node.js 18+ ships native fetch globally.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // express-validator
+  // ---------------------------------------------------------------------------
+  'express-validator': [
+    {
+      alternative: 'zod',
+      description: 'TypeScript-first schema validation. Framework-agnostic, composable schemas, great type inference.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'valibot',
+      description: 'Tiny, tree-shakeable schema validation library. Similar API to zod with smaller bundle size.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // cls-hooked (async context)
+  // ---------------------------------------------------------------------------
+  'cls-hooked': [
+    {
+      alternative: 'AsyncLocalStorage',
+      description: 'Built-in Node.js AsyncLocalStorage (stable since Node 16). No external dependency for async context propagation.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // dotenv
+  // ---------------------------------------------------------------------------
+  'dotenv': [
+    {
+      alternative: 'node --env-file',
+      description: 'Node.js 20.6+ supports --env-file flag natively. No library needed for .env loading.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // chalk (for simple coloring)
+  // ---------------------------------------------------------------------------
+  'chalk': [
+    {
+      alternative: 'picocolors',
+      description: 'Tiny (< 3KB), dependency-free terminal color library. 2x faster than chalk, covers most use cases.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: 'colorette',
+      description: 'Lightweight terminal coloring. Simple API compatible with chalk basic usage patterns.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // commander / yargs (CLI argument parsing)
+  // ---------------------------------------------------------------------------
+  'commander': [
+    {
+      alternative: 'citty',
+      description: 'Elegant CLI builder from UnJS. TypeScript-first, minimal API with sub-command support.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'clipanion',
+      description: 'Type-safe CLI framework used by Yarn. Advanced features like command routing and validation.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'yargs': [
+    {
+      alternative: 'citty',
+      description: 'Lightweight CLI builder from UnJS. Cleaner API, TypeScript types, smaller footprint than yargs.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'commander',
+      description: 'Popular CLI framework with a simpler API. Less configuration overhead than yargs.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // inquirer / prompts (interactive CLI prompts)
+  // ---------------------------------------------------------------------------
+  'inquirer': [
+    {
+      alternative: '@clack/prompts',
+      description: 'Beautiful CLI prompts with minimal API. Better UX with spinners, grouping, and cancel handling.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'prompts': [
+    {
+      alternative: '@clack/prompts',
+      description: 'Modern interactive prompt library with better DX. Structured prompt flows with cancel support.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // listr (task runner)
+  // ---------------------------------------------------------------------------
+  'listr': [
+    {
+      alternative: 'listr2',
+      description: 'Actively maintained fork of listr. Better TypeScript support, new renderers, and task management.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Logging libraries
+  // ---------------------------------------------------------------------------
+  'debug': [
+    {
+      alternative: 'pino',
+      description: 'Fast structured JSON logger. Better for production observability than debug-style logging.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'consola',
+      description: 'Elegant console logger from UnJS. Supports log levels, reporters, and structured output.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'bunyan': [
+    {
+      alternative: 'pino',
+      description: 'Fastest Node.js JSON logger. Same structured JSON approach as bunyan, 5x faster.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'log4js': [
+    {
+      alternative: 'pino',
+      description: 'High-performance structured logger. Modern alternative to log4js with async I/O and transports.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'signale': [
+    {
+      alternative: 'consola',
+      description: 'Elegant console logger from UnJS. Beautiful output, pluggable reporters, TypeScript support.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'winston': [
+    {
+      alternative: 'pino',
+      description: 'Significantly faster JSON logger. Simpler transport system, lower overhead in production.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'morgan': [
+    {
+      alternative: 'pino-http',
+      description: 'HTTP logger middleware for pino. Structured JSON request logging with automatic request IDs.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // ORM / Query builders
+  // ---------------------------------------------------------------------------
+  'mongoose': [
+    {
+      alternative: 'prisma',
+      description: 'Type-safe ORM with auto-generated client. Schema-first approach, migrations, and studio GUI.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'drizzle-orm',
+      description: 'Lightweight TypeScript ORM. SQL-like syntax, zero overhead, excellent type inference.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'sequelize': [
+    {
+      alternative: 'prisma',
+      description: 'Modern type-safe ORM. Better TypeScript support, declarative schema, and migration tooling.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'drizzle-orm',
+      description: 'SQL-like TypeScript ORM. Closer to raw SQL than Sequelize, excellent performance.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'typeorm': [
+    {
+      alternative: 'prisma',
+      description: 'More stable and actively maintained ORM. Better migration system and type safety.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'drizzle-orm',
+      description: 'Lightweight alternative with SQL-like API. Better TypeScript inference and query performance.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'knex': [
+    {
+      alternative: 'drizzle-orm',
+      description: 'TypeScript-first query builder with ORM features. Similar SQL-like API with full type safety.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'kysely',
+      description: 'Type-safe SQL query builder. End-to-end type safety from database schema to query results.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'bookshelf': [
+    {
+      alternative: 'prisma',
+      description: 'Modern ORM replacing Bookshelf/Knex stack. Auto-generated types, declarative relations, migrations.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'waterline': [
+    {
+      alternative: 'prisma',
+      description: 'Sails.js ORM is rarely maintained. Prisma offers modern schema management and type safety.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Authentication
+  // ---------------------------------------------------------------------------
+  'passport': [
+    {
+      alternative: 'lucia-auth',
+      description: 'Modern, lightweight auth library. Session-based authentication with clear API, no magic.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'better-auth',
+      description: 'Framework-agnostic TypeScript auth library. Built-in support for OAuth, email/password, and MFA.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Password hashing
+  // ---------------------------------------------------------------------------
+  'bcrypt': [
+    {
+      alternative: 'argon2',
+      description: 'Winner of the Password Hashing Competition. More secure than bcrypt, resistant to GPU attacks.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'bcryptjs': [
+    {
+      alternative: 'argon2',
+      description: 'Argon2 is the recommended password hashing algorithm. Better security profile than bcrypt variants.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Session management
+  // ---------------------------------------------------------------------------
+  'express-session': [
+    {
+      alternative: 'iron-session',
+      description: 'Encrypted stateless sessions using signed and encrypted cookies. No server-side session store needed.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // CORS / Security middleware
+  // ---------------------------------------------------------------------------
+  'cors': [
+    {
+      alternative: 'helmet',
+      description: 'Comprehensive security middleware that includes CORS handling along with other HTTP security headers.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'csurf': [
+    {
+      alternative: 'csrf-csrf',
+      description: 'csurf is deprecated due to security issues. csrf-csrf implements the double-submit cookie pattern securely.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // File upload
+  // ---------------------------------------------------------------------------
+  'multer': [
+    {
+      alternative: 'busboy',
+      description: 'Low-level multipart parser. More control over file handling, better streaming support.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'formidable',
+      description: 'Full-featured form/file parser. Streaming, plugins, and better memory management than multer.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // WebSocket
+  // ---------------------------------------------------------------------------
+  'socket.io': [
+    {
+      alternative: 'ws',
+      description: 'Lightweight WebSocket implementation. No protocol overhead, better for performance-critical applications.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'socket.io',
+      description: 'If you need fallbacks and rooms, keep socket.io but upgrade to v4+ for improved performance.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // HTTP clients (alternatives to axios/got)
+  // ---------------------------------------------------------------------------
+  'axios': [
+    {
+      alternative: 'ky',
+      description: 'Tiny HTTP client built on fetch. Simpler API, automatic retries, hooks, and smaller bundle.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'ofetch',
+      description: 'Universal fetch client from UnJS. Works in Node, browser, and workers with auto-parsing.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'got': [
+    {
+      alternative: 'ofetch',
+      description: 'Lightweight universal fetch from UnJS. Simpler API with auto-retry, auto-parse, and type safety.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Job scheduling / queues
+  // ---------------------------------------------------------------------------
+  'node-cron': [
+    {
+      alternative: 'croner',
+      description: 'Modern cron scheduler with timezone support, overrun protection, and better pattern parsing.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'agenda': [
+    {
+      alternative: 'bullmq',
+      description: 'Redis-based job queue with better reliability. Supports delayed jobs, retries, and rate limiting.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'bull': [
+    {
+      alternative: 'bullmq',
+      description: 'Next generation of Bull by the same author. Better TypeScript support, flows, and worker threads.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'kue': [
+    {
+      alternative: 'bullmq',
+      description: 'Kue is unmaintained. BullMQ is the modern Redis-based queue with job scheduling and retries.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'bee-queue': [
+    {
+      alternative: 'bullmq',
+      description: 'BullMQ offers more features than bee-queue: job flows, rate limiting, and better error handling.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Redis clients
+  // ---------------------------------------------------------------------------
+  'redis': [
+    {
+      alternative: 'ioredis',
+      description: 'Full-featured Redis client with cluster support, Lua scripting, and pipelining. Better performance.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // MongoDB native driver
+  // ---------------------------------------------------------------------------
+  'mongodb': [
+    {
+      alternative: 'mongoose',
+      description: 'Schema-based ODM for MongoDB. Adds validation, middleware, and population to raw driver.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'prisma',
+      description: 'Type-safe ORM with MongoDB support. Auto-generated client, declarative schema.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // memcached
+  // ---------------------------------------------------------------------------
+  'memcached': [
+    {
+      alternative: 'ioredis',
+      description: 'Redis is a superset of memcached features with persistence, pub/sub, and data structures.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Build tools / bundlers
+  // ---------------------------------------------------------------------------
+  'webpack': [
+    {
+      alternative: 'vite',
+      description: 'Next-gen frontend build tool. Instant dev server with HMR, Rollup-based production builds.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'rspack',
+      description: 'Rust-based webpack-compatible bundler. Drop-in replacement with 5-10x build speed improvement.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'rollup': [
+    {
+      alternative: 'vite',
+      description: 'Vite uses Rollup under the hood for production. Better DX with dev server and plugin ecosystem.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'parcel': [
+    {
+      alternative: 'vite',
+      description: 'Similar zero-config philosophy with better plugin ecosystem and community support.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'gulp': [
+    {
+      alternative: 'npm scripts',
+      description: 'Replace gulp tasks with npm scripts in package.json. Use concurrently for parallel tasks.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'vite',
+      description: 'Modern build tool that replaces custom gulp build pipelines. Plugin-based, zero-config defaults.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'grunt': [
+    {
+      alternative: 'npm scripts',
+      description: 'Replace Grunt tasks with npm scripts. Modern tooling eliminates the need for task runners.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'browserify': [
+    {
+      alternative: 'vite',
+      description: 'Modern bundler with ESM-first approach. Replaces browserify with faster builds and HMR.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'esbuild',
+      description: 'Extremely fast JavaScript bundler. Simple API, handles CommonJS and ESM bundling.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Transpilers / TypeScript execution
+  // ---------------------------------------------------------------------------
+  'babel': [
+    {
+      alternative: 'swc',
+      description: 'Rust-based JavaScript/TypeScript compiler. 20x faster than Babel, compatible plugin API.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'esbuild',
+      description: 'Go-based transpiler and bundler. Handles JSX, TypeScript, and modern JS transforms.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  '@babel/core': [
+    {
+      alternative: 'swc',
+      description: 'Rust-based compiler. Drop-in replacement for most Babel configurations, dramatically faster.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'esbuild',
+      description: 'Extremely fast transpiler. Handles TypeScript, JSX, and most modern JS features.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'ts-node': [
+    {
+      alternative: 'tsx',
+      description: 'TypeScript execute powered by esbuild. Instant startup, ESM support, watch mode included.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'ts-jest': [
+    {
+      alternative: 'vitest',
+      description: 'Vite-native test runner with built-in TypeScript support. No separate transformer needed.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: '@swc/jest',
+      description: 'SWC-based Jest transformer. 10x faster TypeScript compilation than ts-jest.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Email
+  // ---------------------------------------------------------------------------
+  'nodemailer': [
+    {
+      alternative: 'resend',
+      description: 'Modern email API built for developers. Simple SDK, React Email support, better deliverability.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Template engines
+  // ---------------------------------------------------------------------------
+  'nunjucks': [
+    {
+      alternative: 'edge.js',
+      description: 'Modern template engine for Node.js. Better error messages, tag-based components, TypeScript support.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'eta',
+      description: 'Lightweight, fast template engine. Supports async, partials, and configurable syntax.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'ejs': [
+    {
+      alternative: 'eta',
+      description: 'Faster and lighter EJS alternative. Compatible syntax with better async support and security.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'pug': [
+    {
+      alternative: 'edge.js',
+      description: 'Modern tag-based template engine. Cleaner syntax, better error reporting, component support.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'handlebars': [
+    {
+      alternative: 'edge.js',
+      description: 'Modern template engine with better control flow. No need for custom helpers for basic logic.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'eta',
+      description: 'Lightweight template engine with configurable delimiters. Supports async and partials.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Markdown
+  // ---------------------------------------------------------------------------
+  'marked': [
+    {
+      alternative: 'markdown-it',
+      description: 'Pluggable Markdown parser. Better extensibility, CommonMark compliance, and plugin ecosystem.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: '@mdx-js/mdx',
+      description: 'MDX enables JSX in Markdown. Ideal for content-driven apps with interactive components.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // DOM parsing / manipulation
+  // ---------------------------------------------------------------------------
+  'cheerio': [
+    {
+      alternative: 'linkedom',
+      description: 'Fast, lightweight DOM implementation. Standards-compliant, smaller bundle, better performance.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'jsdom': [
+    {
+      alternative: 'happy-dom',
+      description: 'Faster alternative to jsdom. 2-3x performance improvement, good compatibility with testing libraries.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: 'linkedom',
+      description: 'Lightweight DOM implementation. Faster than jsdom with smaller memory footprint.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Browser automation / E2E testing
+  // ---------------------------------------------------------------------------
+  'puppeteer': [
+    {
+      alternative: 'playwright',
+      description: 'Multi-browser automation (Chrome, Firefox, WebKit). Better auto-wait, tracing, and test generation.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'cypress': [
+    {
+      alternative: 'playwright',
+      description: 'Multi-browser E2E testing. Faster execution, better parallelization, and cross-browser support.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'selenium-webdriver': [
+    {
+      alternative: 'playwright',
+      description: 'Modern browser automation with auto-wait and multi-browser support. No WebDriver protocol overhead.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'webdriverio': [
+    {
+      alternative: 'playwright',
+      description: 'Simpler API with built-in assertions. No WebDriver dependency, faster test execution.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'protractor': [
+    {
+      alternative: 'playwright',
+      description: 'Protractor is deprecated. Playwright supports Angular apps and offers modern test tooling.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'nightmare': [
+    {
+      alternative: 'playwright',
+      description: 'Nightmare is unmaintained. Playwright offers reliable browser automation across all modern browsers.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Image processing
+  // ---------------------------------------------------------------------------
+  'sharp': [
+    {
+      alternative: '@napi-rs/image',
+      description: 'Rust-based image processing via N-API. No native dependency issues, cross-platform binaries.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'jimp': [
+    {
+      alternative: 'sharp',
+      description: 'libvips-based image processor. 10x faster than jimp for resizing, converting, and transforming images.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'gm': [
+    {
+      alternative: 'sharp',
+      description: 'No external GraphicsMagick/ImageMagick install required. Faster processing with libvips.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'imagemagick': [
+    {
+      alternative: 'sharp',
+      description: 'Native Node.js image processing without system dependency. Faster and easier to deploy.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Timezone / Date utilities
+  // ---------------------------------------------------------------------------
+  'moment-timezone': [
+    {
+      alternative: 'luxon',
+      description: 'Built-in IANA timezone support via Intl API. No separate timezone data bundle needed.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'date-fns-tz',
+      description: 'Timezone support for date-fns. Modular, tree-shakeable, uses native Intl API.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'chrono-node': [
+    {
+      alternative: 'date-fns',
+      description: 'Comprehensive date utility library. Use date-fns/parse for structured date parsing.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Promise libraries (legacy)
+  // ---------------------------------------------------------------------------
+  'q': [
+    {
+      alternative: 'native promises',
+      description: 'Native Promise/async-await is standard since ES2015. Remove Q and use built-in Promise API.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'when': [
+    {
+      alternative: 'native promises',
+      description: 'Native Promise with async/await covers all when.js use cases. No polyfill library needed.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'rsvp': [
+    {
+      alternative: 'native promises',
+      description: 'RSVP is no longer needed. Native Promise API is performant and universally supported.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'es6-promise': [
+    {
+      alternative: 'native promises',
+      description: 'ES6 Promise polyfill is unnecessary. All supported Node.js versions have native Promise.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // String similarity
+  // ---------------------------------------------------------------------------
+  'string-similarity': [
+    {
+      alternative: 'fastest-levenshtein',
+      description: 'Fastest Levenshtein distance implementation. Better performance for string comparison use cases.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'leven': [
+    {
+      alternative: 'fastest-levenshtein',
+      description: 'Faster Levenshtein distance calculation with the same simple API.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Additional commonly encountered packages
+  // ---------------------------------------------------------------------------
+  'request-promise-any': [
+    {
+      alternative: 'got',
+      description: 'Modern HTTP client with promise support. request ecosystem is fully deprecated.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'uuid': [
+    {
+      alternative: 'crypto.randomUUID',
+      description: 'Built-in Node.js 19+ and Web Crypto API. No dependency needed for UUID v4 generation.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'form-data': [
+    {
+      alternative: 'native FormData',
+      description: 'Node.js 18+ includes global FormData. No polyfill needed for modern Node versions.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'node-abort-controller': [
+    {
+      alternative: 'native AbortController',
+      description: 'AbortController is global in Node.js 16+. Remove the polyfill package.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'object-assign': [
+    {
+      alternative: 'Object.assign / spread',
+      description: 'Native Object.assign() and spread syntax are available in all modern environments.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'array-flatten': [
+    {
+      alternative: 'Array.prototype.flat',
+      description: 'Native Array.flat() is available since ES2019. No utility package needed.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'string.prototype.trimstart': [
+    {
+      alternative: 'String.prototype.trimStart',
+      description: 'Native trimStart() is available since ES2019. Remove the polyfill.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'string.prototype.trimend': [
+    {
+      alternative: 'String.prototype.trimEnd',
+      description: 'Native trimEnd() is available since ES2019. Remove the polyfill.',
+      difficulty: 'easy',
+    },
+  ],
 };
 
 // ---------------------------------------------------------------------------
