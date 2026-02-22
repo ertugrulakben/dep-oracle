@@ -9,10 +9,24 @@
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { registerTools } from './tools.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const pkgPath = join(__dirname, '..', '..', 'package.json');
+const pkgVersion = (() => {
+  try {
+    return JSON.parse(readFileSync(pkgPath, 'utf-8')).version as string;
+  } catch {
+    return '1.1.0';
+  }
+})();
+
 const server = new Server(
-  { name: 'dep-oracle', version: '1.0.0' },
+  { name: 'dep-oracle', version: pkgVersion },
   { capabilities: { tools: {} } },
 );
 

@@ -1,4 +1,18 @@
 import type { ScanResult, TrustReport } from "../parsers/schema.js";
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const pkgPath = join(__dirname, '..', '..', 'package.json');
+const PKG_VERSION = (() => {
+  try {
+    return JSON.parse(readFileSync(pkgPath, 'utf-8')).version as string;
+  } catch {
+    return '1.1.0';
+  }
+})();
 
 // ---------------------------------------------------------------------------
 // SARIF 2.1.0 type subset (only what we emit)
@@ -80,7 +94,7 @@ export class SarifReporter {
           tool: {
             driver: {
               name: "dep-oracle",
-              version: "1.0.0",
+              version: PKG_VERSION,
               informationUri: "https://github.com/ertugrulakben/dep-oracle",
               rules,
             },
