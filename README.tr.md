@@ -103,7 +103,7 @@ dep-oracle scan --verbose
 ## Çıktı Örneği
 
 ```
-dep-oracle v1.1.2
+dep-oracle v1.1.3
 package.json taranıyor...
 47 doğrudan bağımlılık, 683 geçişli bağımlılık bulundu
 Veri toplanıyor... [=============================] 100% (2.3s)
@@ -368,9 +368,12 @@ npm run lint      # TypeScript tip kontrolü
 
 ## Değişiklik Günlüğü
 
+### v1.1.3 (2026-02-22)
+
+- **npm README Duzeltmesi**: npmjs.com'da artik Ingilizce README gorunuyor (Turkce README npm paketinden haric tutuldu)
+
 ### v1.1.2 (2026-02-22)
 
-- **npm README Duzeltmesi**: npmjs.com'da artik kapak resimli, MCP Registry badge'li Ingilizce README gorunuyor
 - **MCP Registry Linkleri**: Resmi dokumantasyon URL'sine guncellendi
 
 ### v1.1.1 (2026-02-22)

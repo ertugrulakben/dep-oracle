@@ -1,9 +1,13 @@
 # dep-oracle Changelog
 
+## [1.1.3] - 2026-02-22
+
+### Fixed
+- npm README now correctly shows English README (Turkish README excluded from npm package via prepack/postpack lifecycle scripts)
+
 ## [1.1.2] - 2026-02-22
 
 ### Fixed
-- npm README now shows English README with cover image, MCP Registry badge, and complete changelog
 - MCP Registry links updated to official documentation URL
 
 ## [1.1.1] - 2026-02-22

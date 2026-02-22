@@ -1,0 +1,20 @@
+# Turkish README should not be in the npm package
+# (npm auto-includes README* files and may pick the wrong one)
+README.tr.md
+
+# Dev files
+_dev/
+src/
+*.test.ts
+tsconfig.json
+tsup.config.ts
+.dep-oraclerc.example
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+.github/
+cover.jpeg
+server.json
+
+# MCP Publisher
+mcp-publisher*
+.mcpregistry_*
