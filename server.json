@@ -1,0 +1,46 @@
+{
+  "$schema": "https://registry.modelcontextprotocol.io/v0/schema/server.json",
+  "name": "io.github.ertugrulakben/dep-oracle",
+  "version": "1.1.1",
+  "description": "Predictive dependency security engine. Trust scores, zombie detection, blast radius analysis, typosquat detection, trend prediction, and migration advisor for your supply chain dependencies.",
+  "repository": {
+    "url": "https://github.com/ertugrulakben/dep-oracle",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registry_name": "npm",
+      "name": "dep-oracle",
+      "version": "1.1.1"
+    }
+  ],
+  "tools": [
+    {
+      "name": "dep_oracle_scan",
+      "description": "Scan a project's dependency tree and generate trust scores for all packages. Returns critical, warning, and safe dependency counts with detailed metrics."
+    },
+    {
+      "name": "dep_oracle_trust_score",
+      "description": "Get the trust score (0-100) for a single package. Evaluates security history, maintainer health, activity, popularity, funding, and license."
+    },
+    {
+      "name": "dep_oracle_blast_radius",
+      "description": "Analyze the blast radius of a dependency — how many files and other packages would be affected if it were compromised."
+    },
+    {
+      "name": "dep_oracle_zombies",
+      "description": "List all zombie dependencies in a project — packages with no commits, releases, or maintenance activity in 12+ months."
+    },
+    {
+      "name": "dep_oracle_suggest_migration",
+      "description": "Get safer alternative package suggestions for a given dependency. Covers 131 packages with 192 curated alternatives including difficulty ratings."
+    }
+  ],
+  "remotes": [
+    {
+      "transportType": "stdio",
+      "command": "npx",
+      "args": ["dep-oracle", "mcp"]
+    }
+  ]
+}

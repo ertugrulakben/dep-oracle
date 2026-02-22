@@ -1,5 +1,11 @@
 # dep-oracle Changelog
 
+## [1.1.1] - 2026-02-22
+
+### Added
+- MCP Registry support (`server.json` + `mcpName` in package.json)
+- Listed on MCP Registry: `io.github.ertugrulakben/dep-oracle`
+
 ## [1.1.0] - 2026-02-22
 
 ### Added
