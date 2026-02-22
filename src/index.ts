@@ -150,6 +150,7 @@ export async function scan(options?: {
   dir?: string;
   githubToken?: string;
   offline?: boolean;
+  ecosystem?: 'npm' | 'pypi';
 }): Promise<ScanResult> {
   const dir = resolve(options?.dir ?? process.cwd());
   const cache = new CacheManager();
@@ -178,7 +179,8 @@ export async function scan(options?: {
 
   for (const node of directNodes) {
     const blastRadius = getBlastRadius(node.name, importGraph);
-    const results = await orchestrator.collectAll(node.name, node.version);
+    const nodeEcosystem = options?.ecosystem ?? node.registry;
+    const results = await orchestrator.collectAll(node.name, node.version, nodeEcosystem);
     const trustResult = trustEngine.calculate(results);
     const zombie = zombieDetector.detect(results.registry.data, results.github.data);
     const typosquat = typosquatDetector.check(node.name);
@@ -228,7 +230,7 @@ export async function scan(options?: {
 export async function checkPackage(
   packageName: string,
   version?: string,
-  options?: { githubToken?: string; offline?: boolean },
+  options?: { githubToken?: string; offline?: boolean; ecosystem?: 'npm' | 'pypi' },
 ): Promise<TrustReport> {
   const cache = new CacheManager();
   const orchestrator = new CollectorOrchestrator(cache, {
@@ -240,7 +242,8 @@ export async function checkPackage(
   const migrationAdvisor = new MigrationAdvisor();
   const typosquatDetector = new TyposquatDetector();
 
-  const results = await orchestrator.collectAll(packageName, version ?? 'latest');
+  const ecosystem = options?.ecosystem ?? 'npm';
+  const results = await orchestrator.collectAll(packageName, version ?? 'latest', ecosystem);
   const trustResult = trustEngine.calculate(results);
   const zombie = zombieDetector.detect(results.registry.data, results.github.data);
   const typosquat = typosquatDetector.check(packageName);

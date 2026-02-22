@@ -11,6 +11,7 @@
 import type { CollectorResult, PopularityData } from '../parsers/schema.js';
 import type { CacheManager } from '../cache/store.js';
 import { logger } from '../utils/logger.js';
+import { npmRateLimiter } from '../utils/rate-limiter.js';
 import { BaseCollector } from './base.js';
 
 interface NpmDownloadsResponse {
@@ -98,6 +99,7 @@ export class PopularityCollector extends BaseCollector<PopularityData> {
     logger.debug(`Popularity: fetching ${period} downloads: ${url}`);
 
     try {
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: { Accept: 'application/json' },
       });
@@ -130,6 +132,7 @@ export class PopularityCollector extends BaseCollector<PopularityData> {
     logger.debug(`Popularity: fetching dependent count: ${url}`);
 
     try {
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: { Accept: 'application/json' },
       });
@@ -176,6 +179,7 @@ export class PopularityCollector extends BaseCollector<PopularityData> {
       // The dependents count is not directly in the registry JSON.
       // We use the npm website API as a best-effort approach.
       const url = `https://www.npmjs.com/package/${encodeURIComponent(packageName)}`;
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: {
           Accept: 'text/html',

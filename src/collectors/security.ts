@@ -57,13 +57,14 @@ export class SecurityCollector extends BaseCollector<SecurityData> {
   async collect(
     packageName: string,
     version: string,
+    ecosystem?: string,
   ): Promise<CollectorResult<SecurityData>> {
     // Check cache first
     const cached = await this.getCached(packageName, version);
     if (cached) return cached;
 
     try {
-      const vulns = await this.queryOsv(packageName);
+      const vulns = await this.queryOsv(packageName, ecosystem);
 
       const totalVulnerabilities = vulns.length;
 
@@ -134,9 +135,9 @@ export class SecurityCollector extends BaseCollector<SecurityData> {
   // OSV API
   // ---------------------------------------------------------------------------
 
-  private async queryOsv(packageName: string): Promise<OsvVulnerability[]> {
+  private async queryOsv(packageName: string, ecosystem: string = 'npm'): Promise<OsvVulnerability[]> {
     const url = 'https://api.osv.dev/v1/query';
-    logger.debug(`OSV: querying vulnerabilities for ${packageName}`);
+    logger.debug(`OSV: querying vulnerabilities for ${packageName} (ecosystem=${ecosystem})`);
 
     const res = await fetch(url, {
       method: 'POST',
@@ -144,7 +145,7 @@ export class SecurityCollector extends BaseCollector<SecurityData> {
       body: JSON.stringify({
         package: {
           name: packageName,
-          ecosystem: 'npm',
+          ecosystem,
         },
       }),
     });

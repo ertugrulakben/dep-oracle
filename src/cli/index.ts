@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { createScanCommand } from './commands/scan.js';
 import { createCheckCommand } from './commands/check.js';
+import { createBadgeCommand } from './commands/badge.js';
 import { setVerbose } from '../utils/logger.js';
 
 // Read version from package.json so it's always in sync
@@ -28,7 +29,7 @@ const pkgVersion = (() => {
     const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
     return pkg.version as string;
   } catch {
-    return '1.2.1';
+    return '1.3.0';
   }
 })();
 
@@ -48,6 +49,7 @@ const program = new Command()
 
 program.addCommand(createScanCommand());
 program.addCommand(createCheckCommand());
+program.addCommand(createBadgeCommand());
 
 program
   .command('mcp')

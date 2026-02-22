@@ -163,7 +163,7 @@ describe('TrustScoreEngine', () => {
       expect(result.trustScore).toBeLessThanOrEqual(100);
       expect(result.unavailableMetrics).toContain('security');
       expect(result.unavailableMetrics).toContain('funding');
-      expect(result.insufficientData).toBe(false); // only 2 missing, threshold is 3
+      expect(result.insufficientData).toBe(true); // 2 missing, threshold is now 2
     });
 
     it('returns 0 when all data is missing', () => {
@@ -464,8 +464,9 @@ describe('TrustScoreEngine', () => {
         { key: 'maintainer' as const, weight: 0.5, score: -1 },
       ];
       const result = engine.computeWeightedScore(metrics, ['maintainer']);
-      // Only security available, all weight goes to it: 80
-      expect(result).toBe(80);
+      // Only security available (weight 0.5), score 80. Missing 50% weight.
+      // Penalty: (80-50)*0.5 = 15. Final: 80-15 = 65
+      expect(result).toBe(65);
     });
 
     it('returns 0 when all metrics are unavailable', () => {

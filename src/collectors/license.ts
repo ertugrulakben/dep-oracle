@@ -12,6 +12,7 @@
 import type { CollectorResult, LicenseData } from '../parsers/schema.js';
 import type { CacheManager } from '../cache/store.js';
 import { logger } from '../utils/logger.js';
+import { npmRateLimiter } from '../utils/rate-limiter.js';
 import { BaseCollector } from './base.js';
 
 type LicenseRisk = 'safe' | 'cautious' | 'risky' | 'unknown';
@@ -170,6 +171,7 @@ export class LicenseCollector extends BaseCollector<LicenseData> {
     const url = `https://registry.npmjs.org/${encodeURIComponent(packageName)}`;
     logger.debug(`License: fetching packument ${url}`);
 
+    await npmRateLimiter.acquire();
     const res = await fetch(url, {
       headers: { Accept: 'application/json' },
     });

@@ -13,6 +13,7 @@
 import type { CollectorResult, FundingData } from '../parsers/schema.js';
 import type { CacheManager } from '../cache/store.js';
 import { logger } from '../utils/logger.js';
+import { githubRateLimiter, npmRateLimiter } from '../utils/rate-limiter.js';
 import { BaseCollector } from './base.js';
 
 /** Simplified OpenCollective profile shape. */
@@ -124,6 +125,7 @@ export class FundingCollector extends BaseCollector<FundingData> {
   ): Promise<string | string[] | null> {
     try {
       const url = `https://registry.npmjs.org/${encodeURIComponent(packageName)}`;
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: { Accept: 'application/json' },
       });
@@ -172,6 +174,7 @@ export class FundingCollector extends BaseCollector<FundingData> {
         headers.Authorization = `Bearer ${this.githubToken}`;
       }
 
+      await githubRateLimiter.acquire();
       const res = await fetch(url, { headers });
       if (!res.ok) return null;
 
@@ -215,6 +218,7 @@ export class FundingCollector extends BaseCollector<FundingData> {
   ): Promise<{ owner: string; repo: string } | null> {
     try {
       const url = `https://registry.npmjs.org/${encodeURIComponent(packageName)}`;
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: { Accept: 'application/json' },
       });

@@ -235,8 +235,8 @@ async function analyzePackage(
   trendPredictor: TrendPredictor,
   migrationAdvisor: MigrationAdvisor,
 ): Promise<TrustReport> {
-  // Collect data from all sources
-  const collected = await orchestrator.collectAll(node.name, node.version);
+  // Collect data from all sources, routing to the correct ecosystem
+  const collected = await orchestrator.collectAll(node.name, node.version, node.registry);
 
   // Trust score
   const trustResult = trustEngine.calculate(collected);

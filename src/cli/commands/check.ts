@@ -28,6 +28,7 @@ export function createCheckCommand(): Command {
     .description('Check trust score for a single package')
     .argument('<package>', 'Package name (e.g. express, lodash@4.17.21)')
     .option('--offline', 'Use cached data only')
+    .option('--ecosystem <type>', 'Package ecosystem: npm or pypi', 'npm')
     .option('--verbose', 'Enable verbose logging output')
     .option('--json', 'Output as JSON')
     .action(async (packageArg: string, opts: CheckOptions) => {
@@ -42,6 +43,7 @@ export function createCheckCommand(): Command {
 
 interface CheckOptions {
   offline?: boolean;
+  ecosystem?: 'npm' | 'pypi';
   json?: boolean;
 }
 
@@ -75,7 +77,8 @@ async function runCheck(packageArg: string, opts: CheckOptions): Promise<number>
     const migrationAdvisor = new MigrationAdvisor();
 
     // Collect data
-    const collected = await orchestrator.collectAll(name, version);
+    const ecosystem = opts.ecosystem ?? 'npm';
+    const collected = await orchestrator.collectAll(name, version, ecosystem);
 
     // Analyze
     const trustResult = trustEngine.calculate(collected);

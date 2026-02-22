@@ -36,8 +36,8 @@
 
 Tedarik zinciri saldırıları (supply chain attacks) her yıl daha büyük bir tehdit haline geliyor:
 
-- **2025'teki güvenlik ihlallerinin %62'si** tedarik zinciri saldırıları kaynaklı
-- Ortalama bir projede **683 geçişli (transitive) bağımlılık** bulunuyor
+- Tedarik zinciri saldırıları **2019'dan bu yana %742 arttı** ([Sonatype 2024 Raporu](https://www.sonatype.com/state-of-the-software-supply-chain/introduction))
+- Ortalama bir npm projesi **yüzlerce geçişli (transitive) bağımlılık** çekiyor — herhangi biri ele geçirilebilir
 - `npm audit` yalnızca **bilinen** CVE'leri yakalayabiliyor — dep-oracle gelecekteki riskleri **tahmin ediyor**
 - Kendi kodunuzu denetliyorsunuz. Peki bağımlılık zincirinizi de denetliyor musunuz?
 
@@ -179,6 +179,26 @@ Güvenlik açıklarını hızlıca yamayan paketler (7 gün içinde) **+10 bonus
 
 Bir API erişilemediyse (GitHub kapalı, internet yok, rate limit), dep-oracle çökmez. Eksik metrik ağırlığı diğer mevcut metriklere dağılır. 3+ metrik kullanılamaz durumda ise güvenilirlik uyarısı gösterilir.
 
+### Patlama Yarıçapı Metodolojisi
+
+Patlama yarıçapı metriği, kaynak dosyalarınızdan kaçının belirli bir bağımlılığı doğrudan import ettiğini sayar:
+
+1. Tüm `.js`, `.ts`, `.jsx`, `.tsx`, `.mjs`, `.mts`, `.cjs`, `.cts` dosyalarını tarar
+2. `node_modules`, `.git`, `dist`, `build`, `coverage` gibi derleme dizinlerini atlar
+3. Her dosyada `import ... from 'pkg'`, `require('pkg')` ve dinamik `import('pkg')` kalıplarını arar
+4. Etkilenen dosya sayısı, yolları ve kod tabanı yüzdesini raporlar
+
+**Mevcut limitasyonlar:**
+- Yalnızca JavaScript/TypeScript import kalıplarını tarar
+- Python `import` deyimleri henüz analiz edilmiyor (salt Python projelerinde patlama yarıçapı 0 döner)
+- Re-export veya barrel dosyalarını izlemez — yalnızca doğrudan import'ları sayar
+
+### Ağırlık Gerekçesi
+
+Ağırlıklar, **güvenlik açıkları ve maintainer terk etmesinin** tedarik zinciri riskinin en güçlü göstergeleri olduğu ilkesine dayanır. Ağırlıklar `.dep-oraclerc.json` ile tamamen yapılandırılabilir — kurumsal ekipler kendi risk toleranslarına göre ayarlayabilir.
+
+Bir metrik için veri mevcut olmadığında, skor eksik ağırlık oranında orta noktaya (50) doğru çekilir ve eksik veriden kaynaklanan yapay şişirme önlenir.
+
 ## Typosquat Tespiti
 
 dep-oracle, typosquatting'i yakalamak için çok katmanlı bir yaklaşım kullanır:
@@ -257,10 +277,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ertugrulakben/dep-oracle-action@v1
+      - uses: actions/setup-node@v4
         with:
-          threshold: 60
-          format: sarif
+          node-version: '20'
+      - name: dep-oracle Tarama
+        run: npx dep-oracle scan --format sarif --min-score 60
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Bu konfigürasyonla:
@@ -320,16 +343,18 @@ Ya da `package.json` içinde tanımlayabilirsiniz:
 | Özellik | npm audit | Dependabot | Socket.dev | Snyk | **dep-oracle** |
 |---------|-----------|------------|------------|------|----------------|
 | Bilinen CVE taraması | Var | Var | Var | Var | **Var** |
-| Prediktif risk analizi | Yok | Yok | Kısmi | Yok | **Var** |
+| Prediktif risk analizi | Yok | Yok | Kısmi | Kısmi | **Var** |
 | Güven Skoru (0-100) | Yok | Yok | Yok | Yok | **Var** |
 | Zombi tespiti | Yok | Yok | Yok | Yok | **Var** |
-| Patlama yarıçapı | Yok | Yok | Yok | Yok | **Var** |
+| Patlama yarıçapı | Yok | Kısmi | Yok | Yok | **Var** |
 | Typosquat tespiti | Yok | Yok | Var | Yok | **Var** |
 | Trend tahmini | Yok | Yok | Yok | Yok | **Var** |
 | Göç danışmanı | Yok | Kısmi | Yok | Kısmi | **Var (131 paket)** |
-| MCP entegrasyonu | Yok | Yok | Var | Var | **Var** |
+| MCP entegrasyonu | Yok | Yok | Yok | Yok | **Var** |
 | Sıfır kurulum (npx) | Var | Yok | Yok | Yok | **Var** |
 | Ücretsiz ve açık kaynak | Var | Var | Freemium | Freemium | **Var** |
+
+> **Not:** dep-oracle, kurumsal ortamlarda Snyk veya Socket.dev'in yerini almayı hedeflemez. Bu araçların özel güvenlik araştırma ekipleri ve CVE veritabanları vardır. dep-oracle, mevcut araçları tamamlayan **prediktif sinyallere** (güven skorları, bakım sağlığı, fonlama, zombi tespiti) odaklanır.
 
 ## Programatik API
 

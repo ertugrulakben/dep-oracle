@@ -22,6 +22,7 @@ import type { CacheManager } from '../cache/store.js';
 import { logger } from '../utils/logger.js';
 
 import { RegistryCollector } from './registry.js';
+import { PyPIRegistryCollector } from './pypi-registry.js';
 import { GitHubCollector } from './github.js';
 import { SecurityCollector } from './security.js';
 import { FundingCollector } from './funding.js';
@@ -60,6 +61,7 @@ export class CollectorOrchestrator {
   private readonly options: Required<OrchestratorOptions>;
 
   private readonly registryCollector: RegistryCollector;
+  private readonly pypiRegistryCollector: PyPIRegistryCollector;
   private readonly githubCollector: GitHubCollector;
   private readonly securityCollector: SecurityCollector;
   private readonly fundingCollector: FundingCollector;
@@ -75,6 +77,7 @@ export class CollectorOrchestrator {
     };
 
     this.registryCollector = new RegistryCollector(this.cache);
+    this.pypiRegistryCollector = new PyPIRegistryCollector(this.cache);
     this.githubCollector = new GitHubCollector(this.cache, this.options.githubToken || undefined);
     this.securityCollector = new SecurityCollector(this.cache);
     this.fundingCollector = new FundingCollector(this.cache, this.options.githubToken || undefined);
@@ -92,9 +95,10 @@ export class CollectorOrchestrator {
   async collectAll(
     packageName: string,
     version: string,
+    ecosystem: 'npm' | 'pypi' = 'npm',
   ): Promise<AllCollectorResults> {
     logger.info(
-      `Collecting data for ${packageName}@${version} (offline=${String(this.options.offline)})`,
+      `Collecting data for ${packageName}@${version} (ecosystem=${ecosystem}, offline=${String(this.options.offline)})`,
     );
 
     const limit = pLimit(this.options.concurrency);
@@ -104,10 +108,19 @@ export class CollectorOrchestrator {
       collector: BaseCollector<T>;
     };
 
+    // Select the appropriate registry collector based on ecosystem
+    const activeRegistryCollector =
+      ecosystem === 'pypi'
+        ? this.pypiRegistryCollector
+        : this.registryCollector;
+
+    // Map ecosystem to OSV ecosystem identifier
+    const osvEcosystem = ecosystem === 'pypi' ? 'PyPI' : 'npm';
+
     // Type-safe collector list. We use `unknown` for the heterogeneous array
     // and cast at assignment time.
     const entries: Array<CollectorEntry<unknown>> = [
-      { key: 'registry', collector: this.registryCollector as BaseCollector<unknown> },
+      { key: 'registry', collector: activeRegistryCollector as BaseCollector<unknown> },
       { key: 'github', collector: this.githubCollector as BaseCollector<unknown> },
       { key: 'security', collector: this.securityCollector as BaseCollector<unknown> },
       { key: 'funding', collector: this.fundingCollector as BaseCollector<unknown> },
@@ -127,12 +140,22 @@ export class CollectorOrchestrator {
           result = await this.offlineCollect(collector, packageName, version);
         } else {
           try {
-            result = await Promise.race([
-              this.onlineCollect(collector, packageName, version),
-              new Promise<never>((_, reject) =>
-                setTimeout(() => reject(new Error('Collector timeout')), COLLECTOR_TIMEOUT),
-              ),
-            ]);
+            // Pass ecosystem to the security collector
+            if (key === 'security') {
+              result = await Promise.race([
+                this.securityCollector.collect(packageName, version, osvEcosystem),
+                new Promise<never>((_, reject) =>
+                  setTimeout(() => reject(new Error('Collector timeout')), COLLECTOR_TIMEOUT),
+                ),
+              ]);
+            } else {
+              result = await Promise.race([
+                this.onlineCollect(collector, packageName, version),
+                new Promise<never>((_, reject) =>
+                  setTimeout(() => reject(new Error('Collector timeout')), COLLECTOR_TIMEOUT),
+                ),
+              ]);
+            }
           } catch {
             logger.warn(`[${collector.name}] ${packageName}@${version} => timeout (${COLLECTOR_TIMEOUT}ms)`);
             result = {

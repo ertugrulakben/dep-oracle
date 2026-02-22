@@ -109,7 +109,7 @@ export class TrustScoreEngine {
     return {
       trustScore: Math.round(trustScore),
       metrics,
-      insufficientData: unavailableMetrics.length >= 3,
+      insufficientData: unavailableMetrics.length >= 2,
       unavailableMetrics,
     };
   }
@@ -306,6 +306,14 @@ export class TrustScoreEngine {
     for (const m of available) {
       const effectiveWeight = m.weight / totalAvailableWeight;
       score += m.score * effectiveWeight;
+    }
+
+    // Apply confidence penalty based on missing weight
+    const missingWeightFraction = 1 - totalAvailableWeight;
+    if (missingWeightFraction > 0) {
+      // Pull score toward midpoint (50) proportionally to missing weight
+      const penalty = (score - 50) * missingWeightFraction;
+      score = score - penalty;
     }
 
     return clamp(Math.round(score));

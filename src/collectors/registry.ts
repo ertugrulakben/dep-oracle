@@ -9,6 +9,7 @@
 import type { CollectorResult, RegistryData } from '../parsers/schema.js';
 import type { CacheManager } from '../cache/store.js';
 import { logger } from '../utils/logger.js';
+import { npmRateLimiter } from '../utils/rate-limiter.js';
 import { BaseCollector } from './base.js';
 
 /** Shape returned by the npm downloads API. */
@@ -117,6 +118,7 @@ export class RegistryCollector extends BaseCollector<RegistryData> {
     const url = `https://registry.npmjs.org/${encodeURIComponent(packageName)}`;
     logger.debug(`Fetching packument: ${url}`);
 
+    await npmRateLimiter.acquire();
     const res = await fetch(url, {
       headers: { Accept: 'application/json' },
     });
@@ -133,6 +135,7 @@ export class RegistryCollector extends BaseCollector<RegistryData> {
     logger.debug(`Fetching weekly downloads: ${url}`);
 
     try {
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: { Accept: 'application/json' },
       });

@@ -34,8 +34,8 @@
 
 ## Why?
 
-- **62% of breaches** in 2025 came from supply chain attacks
-- The average project has **683 transitive dependencies**
+- Supply chain attacks increased **742% since 2019** ([Sonatype 2024 Report](https://www.sonatype.com/state-of-the-software-supply-chain/introduction))
+- The average npm project pulls in **hundreds of transitive dependencies** — any one could be compromised
 - `npm audit` only catches **known** CVEs — dep-oracle **predicts** future risks
 - You audit your code. But do you audit your **trust**?
 
@@ -162,6 +162,26 @@ Packages that patch vulnerabilities quickly (within 7 days) receive a **+10 bonu
 
 If an API is unreachable (GitHub down, no internet, rate limited), dep-oracle doesn't crash. The missing metric weight is redistributed across available metrics. If 3+ metrics are unavailable, a reliability warning is shown.
 
+### Blast Radius Methodology
+
+The blast radius metric counts how many of your source files directly import a given dependency:
+
+1. Recursively collects all `.js`, `.ts`, `.jsx`, `.tsx`, `.mjs`, `.mts`, `.cjs`, `.cts` files
+2. Skips `node_modules`, `.git`, `dist`, `build`, `coverage`, and other build directories
+3. Searches each file for `import ... from 'pkg'`, `require('pkg')`, and dynamic `import('pkg')` patterns
+4. Reports the count, file paths, and percentage of codebase affected
+
+**Current limitations:**
+- Only scans JavaScript/TypeScript import patterns
+- Python `import` statements are not yet analyzed (blast radius returns 0 for Python-only projects)
+- Does not trace re-exports or barrel files — counts direct imports only
+
+### Weight Rationale
+
+Weights are based on the principle that **security vulnerabilities and maintainer abandonment** are the strongest predictors of supply chain risk, followed by development activity signals. Weights are fully configurable via `.dep-oraclerc.json` — enterprise teams can adjust to match their specific risk tolerance.
+
+When data is unavailable for a metric, the score is pulled toward the midpoint (50) proportionally to the fraction of missing weight, preventing artificial inflation from missing data.
+
 ## Typosquat Detection
 
 dep-oracle uses a multi-layer approach to catch typosquatting:
@@ -238,10 +258,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ertugrulakben/dep-oracle-action@v1
+      - uses: actions/setup-node@v4
         with:
-          threshold: 60
-          format: sarif
+          node-version: '20'
+      - name: Run dep-oracle
+        run: npx dep-oracle scan --format sarif --min-score 60
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Configuration
@@ -296,16 +319,18 @@ Or add to `package.json`:
 | Feature | npm audit | Dependabot | Socket.dev | Snyk | **dep-oracle** |
 |---------|-----------|------------|------------|------|----------------|
 | Known CVE scan | Yes | Yes | Yes | Yes | **Yes** |
-| Predictive risk | No | No | Partial | No | **Yes** |
+| Predictive risk | No | No | Partial | Partial | **Yes** |
 | Trust Score (0-100) | No | No | No | No | **Yes** |
 | Zombie detection | No | No | No | No | **Yes** |
-| Blast radius | No | No | No | No | **Yes** |
+| Blast radius | No | Partial | No | No | **Yes** |
 | Typosquat detection | No | No | Yes | No | **Yes** |
 | Trend prediction | No | No | No | No | **Yes** |
 | Migration advisor | No | Partial | No | Partial | **Yes (131 pkgs)** |
-| MCP integration | No | No | Yes | Yes | **Yes** |
+| MCP integration | No | No | No | No | **Yes** |
 | Zero install (npx) | Yes | No | No | No | **Yes** |
 | Free & open source | Yes | Yes | Freemium | Freemium | **Yes** |
+
+> **Note:** dep-oracle is not a replacement for Snyk or Socket.dev in enterprise environments. They have dedicated security research teams and CVE databases. dep-oracle focuses on **predictive signals** (trust scores, maintenance health, funding, zombie detection) that complement existing tools.
 
 ## Programmatic API
 

@@ -14,6 +14,7 @@
 import type { CollectorResult, GitHubData } from '../parsers/schema.js';
 import type { CacheManager } from '../cache/store.js';
 import { logger } from '../utils/logger.js';
+import { githubRateLimiter, npmRateLimiter } from '../utils/rate-limiter.js';
 import { BaseCollector } from './base.js';
 
 interface GitHubRepoResponse {
@@ -127,6 +128,7 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
   ): Promise<{ owner: string; repo: string } | null> {
     try {
       const url = `https://registry.npmjs.org/${encodeURIComponent(packageName)}`;
+      await npmRateLimiter.acquire();
       const res = await fetch(url, {
         headers: { Accept: 'application/json' },
       });
@@ -196,6 +198,7 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
     const url = `https://api.github.com/repos/${owner}/${repo}`;
     logger.debug(`GitHub: fetching repo info ${url}`);
 
+    await githubRateLimiter.acquire();
     const res = await fetch(url, { headers: this.headers() });
     if (!res.ok) {
       throw new Error(`GitHub API ${res.status} for ${url}`);
@@ -215,6 +218,7 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
     logger.debug(`GitHub: fetching contributor count ${url}`);
 
     try {
+      await githubRateLimiter.acquire();
       const res = await fetch(url, { headers: this.headers() });
       if (!res.ok) return 0;
 
@@ -245,6 +249,7 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
     logger.debug(`GitHub: fetching recent commit count ${url}`);
 
     try {
+      await githubRateLimiter.acquire();
       const res = await fetch(url, { headers: this.headers() });
       if (!res.ok) return 0;
 
@@ -267,6 +272,7 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
     logger.debug(`GitHub: fetching latest commit ${url}`);
 
     try {
+      await githubRateLimiter.acquire();
       const res = await fetch(url, { headers: this.headers() });
       if (!res.ok) return null;
 
@@ -289,6 +295,7 @@ export class GitHubCollector extends BaseCollector<GitHubData> {
     logger.debug(`GitHub: checking FUNDING.yml ${url}`);
 
     try {
+      await githubRateLimiter.acquire();
       const res = await fetch(url, { headers: this.headers() });
       return res.ok;
     } catch {

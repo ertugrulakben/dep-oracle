@@ -917,6 +917,34 @@ const POPULAR_PACKAGES: readonly string[] = [
   'node-ipc', 'peacenotwar', 'es5-ext',
   'faker', 'request', 'tslint',
   'node-pre-gyp', 'npm-lifecycle',
+
+  // ---------------------------------------------------------------------------
+  // Popular Python packages (PyPI)
+  // ---------------------------------------------------------------------------
+  'requests', 'flask', 'django', 'fastapi', 'numpy', 'pandas',
+  'scipy', 'matplotlib', 'tensorflow', 'torch', 'scikit-learn',
+  'keras', 'pytorch-lightning', 'xgboost', 'lightgbm',
+  'pytest', 'black', 'mypy', 'ruff', 'pylint', 'flake8', 'isort',
+  'celery', 'redis', 'sqlalchemy', 'alembic', 'pydantic',
+  'httpx', 'aiohttp', 'uvicorn', 'gunicorn', 'starlette',
+  'boto3', 'botocore', 'awscli', 'google-cloud-storage', 'azure-storage-blob',
+  'pillow', 'opencv-python', 'beautifulsoup4', 'lxml', 'scrapy',
+  'cryptography', 'paramiko', 'fabric', 'ansible',
+  'click', 'typer', 'rich', 'tqdm', 'colorama', 'tabulate',
+  'setuptools', 'wheel', 'pip', 'twine', 'poetry', 'pdm', 'hatch',
+  'jinja2', 'mako', 'markupsafe', 'werkzeug',
+  'psycopg2', 'pymongo', 'motor', 'peewee', 'tortoise-orm',
+  'marshmallow', 'attrs', 'dataclasses-json',
+  'sentry-sdk', 'prometheus-client', 'opentelemetry-api',
+  'transformers', 'huggingface-hub', 'tokenizers', 'datasets',
+  'langchain', 'openai', 'anthropic', 'tiktoken',
+  'pytest-cov', 'pytest-asyncio', 'pytest-mock', 'coverage',
+  'pyyaml', 'toml', 'python-dotenv', 'decouple',
+  'arrow', 'pendulum', 'python-dateutil',
+  'stripe', 'twilio', 'sendgrid',
+  'selenium', 'playwright', 'httptools',
+  'orjson', 'ujson', 'msgpack',
+  'networkx', 'sympy', 'statsmodels',
 ] as const;
 
 // ---------------------------------------------------------------------------

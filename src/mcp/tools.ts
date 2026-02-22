@@ -108,6 +108,12 @@ const TOOLS = [
             'Absolute path to the project directory to scan. ' +
             'Defaults to the current working directory if omitted.',
         },
+        ecosystem: {
+          type: 'string',
+          description:
+            'Package ecosystem: "npm" or "pypi". Defaults to "npm". ' +
+            'When scanning a project, the ecosystem is auto-detected from the manifest.',
+        },
       },
       required: [] as string[],
     },
@@ -115,7 +121,7 @@ const TOOLS = [
   {
     name: 'dep_oracle_trust_score',
     description:
-      'Calculate the trust score for a single npm package. Queries the npm registry, ' +
+      'Calculate the trust score for a single package. Queries the registry, ' +
       'GitHub, OSV vulnerability database, and other sources to produce a weighted ' +
       'score (0-100) across 6 dimensions: security, maintainer, activity, popularity, ' +
       'funding, and license. Returns a TrustReport JSON with the overall score, ' +
@@ -125,12 +131,16 @@ const TOOLS = [
       properties: {
         package: {
           type: 'string',
-          description: 'npm package name (e.g. "express", "@scope/pkg").',
+          description: 'Package name (e.g. "express", "@scope/pkg", "requests").',
         },
         version: {
           type: 'string',
           description:
             'Specific version to analyze (e.g. "4.18.2"). If omitted, the latest version is used.',
+        },
+        ecosystem: {
+          type: 'string',
+          description: 'Package ecosystem: "npm" or "pypi". Defaults to "npm".',
         },
       },
       required: ['package'],
@@ -234,6 +244,10 @@ const TOOLS = [
           type: 'string',
           description: 'Second package name to compare.',
         },
+        ecosystem: {
+          type: 'string',
+          description: 'Package ecosystem: "npm" or "pypi". Defaults to "npm". Both packages must be from the same ecosystem.',
+        },
       },
       required: ['packageA', 'packageB'],
     },
@@ -256,6 +270,10 @@ const TOOLS = [
           type: 'string',
           description:
             'Absolute path to write the report file. If omitted, the report content is returned directly.',
+        },
+        ecosystem: {
+          type: 'string',
+          description: 'Package ecosystem: "npm" or "pypi". Defaults to "npm".',
         },
       },
       required: [] as string[],
@@ -344,8 +362,9 @@ async function buildTrustReport(
   packageName: string,
   version: string,
   blastRadius: number = 0,
+  ecosystem: 'npm' | 'pypi' = 'npm',
 ): Promise<TrustReport> {
-  const results = await orchestrator.collectAll(packageName, version);
+  const results = await orchestrator.collectAll(packageName, version, ecosystem);
   const trustResult = trustEngine.calculate(results);
   const zombie = zombieDetector.detect(
     results.registry.data,
@@ -397,7 +416,8 @@ async function handleScan(args: Record<string, unknown> | undefined) {
 
   for (const node of directNodes) {
     const blastRadius = getBlastRadius(node.name, importGraph);
-    const report = await buildTrustReport(node.name, node.version, blastRadius);
+    const nodeEcosystem = node.registry === 'pypi' ? 'pypi' as const : 'npm' as const;
+    const report = await buildTrustReport(node.name, node.version, blastRadius, nodeEcosystem);
     reports.push(report);
   }
 
@@ -434,7 +454,8 @@ async function handleTrustScore(args: Record<string, unknown> | undefined) {
   const packageName = validatePackageName(String(args?.package ?? ''));
 
   const version = String(args?.version ?? 'latest');
-  const report = await buildTrustReport(packageName, version);
+  const ecosystem = (args?.ecosystem === 'pypi' ? 'pypi' : 'npm') as 'npm' | 'pypi';
+  const report = await buildTrustReport(packageName, version, 0, ecosystem);
   return successResponse(report);
 }
 
@@ -465,7 +486,8 @@ async function handleZombies(args: Record<string, unknown> | undefined) {
   }> = [];
 
   for (const node of directNodes) {
-    const results = await orchestrator.collectAll(node.name, node.version);
+    const nodeEcosystem = node.registry === 'pypi' ? 'pypi' as const : 'npm' as const;
+    const results = await orchestrator.collectAll(node.name, node.version, nodeEcosystem);
     const zombie = zombieDetector.detect(
       results.registry.data,
       results.github.data,
@@ -528,10 +550,11 @@ async function handleTyposquatCheck(args: Record<string, unknown> | undefined) {
 async function handleCompare(args: Record<string, unknown> | undefined) {
   const packageA = validatePackageName(String(args?.packageA ?? ''));
   const packageB = validatePackageName(String(args?.packageB ?? ''));
+  const ecosystem = (args?.ecosystem === 'pypi' ? 'pypi' : 'npm') as 'npm' | 'pypi';
 
   const [reportA, reportB] = await Promise.all([
-    buildTrustReport(packageA, 'latest'),
-    buildTrustReport(packageB, 'latest'),
+    buildTrustReport(packageA, 'latest', 0, ecosystem),
+    buildTrustReport(packageB, 'latest', 0, ecosystem),
   ]);
 
   return successResponse({
@@ -569,7 +592,8 @@ async function handleReport(args: Record<string, unknown> | undefined) {
 
   for (const node of directNodes) {
     const blastRadius = getBlastRadius(node.name, importGraph);
-    const report = await buildTrustReport(node.name, node.version, blastRadius);
+    const nodeEcosystem = node.registry === 'pypi' ? 'pypi' as const : 'npm' as const;
+    const report = await buildTrustReport(node.name, node.version, blastRadius, nodeEcosystem);
     reports.push(report);
   }
 
