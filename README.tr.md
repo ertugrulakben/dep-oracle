@@ -103,7 +103,7 @@ dep-oracle scan --verbose
 ## Çıktı Örneği
 
 ```
-dep-oracle v1.1.3
+dep-oracle v1.1.4
 package.json taranıyor...
 47 doğrudan bağımlılık, 683 geçişli bağımlılık bulundu
 Veri toplanıyor... [=============================] 100% (2.3s)
@@ -367,6 +367,10 @@ npm run lint      # TypeScript tip kontrolü
 ```
 
 ## Değişiklik Günlüğü
+
+### v1.1.4 (2026-02-22)
+
+- **Package.json Duzeltmesi**: npm'de README yerine literal string gosterilmesine neden olan gecersiz `readme` alani kaldirildi
 
 ### v1.1.3 (2026-02-22)
 

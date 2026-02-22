@@ -99,7 +99,7 @@ dep-oracle scan --verbose
 ## Output Example
 
 ```
-dep-oracle v1.1.3
+dep-oracle v1.1.4
 Scanning package.json...
 Found 47 direct dependencies, 683 transitive
 Collecting data... [=============================] 100% (2.3s)
@@ -343,6 +343,10 @@ npm run lint      # TypeScript type checking
 ```
 
 ## Changelog
+
+### v1.1.4 (2026-02-22)
+
+- **Package.json Fix**: Removed invalid `readme` field that caused npm to display literal string instead of README content
 
 ### v1.1.3 (2026-02-22)
 

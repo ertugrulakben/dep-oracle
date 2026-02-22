@@ -1,5 +1,10 @@
 # dep-oracle Changelog
 
+## [1.1.4] - 2026-02-22
+
+### Fixed
+- Removed invalid `"readme"` field from package.json that caused npm to display literal string instead of README content
+
 ## [1.1.3] - 2026-02-22
 
 ### Fixed
