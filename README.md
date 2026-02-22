@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="cover.jpeg" alt="dep-oracle cover" width="100%">
+</p>
+
+<p align="center">
   <h1 align="center">dep-oracle</h1>
   <p align="center"><strong>Predictive Dependency Security Engine</strong></p>
   <p align="center">
@@ -6,6 +10,7 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
     <a href="https://www.npmjs.com/package/dep-oracle"><img src="https://img.shields.io/npm/dm/dep-oracle.svg" alt="npm downloads"></a>
     <a href="https://github.com/ertugrulakben/dep-oracle"><img src="https://img.shields.io/github/stars/ertugrulakben/dep-oracle.svg?style=social" alt="GitHub stars"></a>
+    <a href="https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle"><img src="https://img.shields.io/badge/MCP-Registry-blue" alt="MCP Registry"></a>
   </p>
   <p align="center">
     <a href="#quick-start">Quick Start</a> &middot;
@@ -94,7 +99,7 @@ dep-oracle scan --verbose
 ## Output Example
 
 ```
-dep-oracle v1.1.0
+dep-oracle v1.1.1
 Scanning package.json...
 Found 47 direct dependencies, 683 transitive
 Collecting data... [=============================] 100% (2.3s)
@@ -138,7 +143,7 @@ Each package is scored 0-100 based on six weighted metrics:
 
 **Score Ranges:** 80-100 Safe | 50-79 Warning | 0-49 Critical
 
-### Security Scoring (v1.1.0)
+### Security Scoring
 
 The security metric uses a **diminishing penalty** model — the first vulnerability has the highest impact, and each additional one has progressively less effect:
 
@@ -189,7 +194,7 @@ Each suggestion includes difficulty rating (easy/moderate/hard) and migration co
 
 ## Claude Code Integration (MCP)
 
-dep-oracle works as an MCP server for Claude Code:
+dep-oracle is listed on the official **[MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle)** and works as an MCP server for Claude Code:
 
 ```json
 // .claude/settings.json
@@ -339,7 +344,12 @@ npm run lint      # TypeScript type checking
 
 ## Changelog
 
-### v1.1.0 (2025-02-22)
+### v1.1.1 (2026-02-22)
+
+- **MCP Registry**: Listed on the official [MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle) as `io.github.ertugrulakben/dep-oracle`
+- **Dynamic Versioning**: MCP server and SARIF reporter now read version from package.json (no more hardcoded versions)
+
+### v1.1.0 (2026-02-22)
 
 - **Typosquat Detection**: Expanded to 1,847+ known packages across 40+ categories, plus dynamic npm registry fetch (top 5,000 packages, 7-day cache)
 - **Migration Advisor**: Expanded to 131 package mappings with 192 safer alternatives
@@ -349,7 +359,7 @@ npm run lint      # TypeScript type checking
 - **Turkish README**: Full Turkish documentation (README.tr.md)
 - **Dynamic CLI Version**: Version automatically synced from package.json
 
-### v1.0.0 (2025-02-22)
+### v1.0.0 (2026-02-22)
 
 - Initial release
 - Trust Score engine with 6 weighted metrics

@@ -20,3 +20,14 @@ coverage/
 # OS
 .DS_Store
 Thumbs.db
+
+# MCP Publisher (binary + auth tokens)
+mcp-publisher.exe
+mcp-publisher
+mcp-publisher_*.tar.gz
+mcp-publisher_*.zip
+.mcpregistry_*
+
+# Blog/marketing assets (not part of the package)
+_dev/blog-post.html
+_dev/cover-image.png

@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="cover.jpeg" alt="dep-oracle kapak" width="100%">
+</p>
+
+<p align="center">
   <h1 align="center">dep-oracle</h1>
   <p align="center"><strong>Prediktif Bağımlılık Güvenlik Motoru</strong></p>
   <p align="center">
@@ -6,6 +10,7 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
     <a href="https://www.npmjs.com/package/dep-oracle"><img src="https://img.shields.io/npm/dm/dep-oracle.svg" alt="npm downloads"></a>
     <a href="https://github.com/ertugrulakben/dep-oracle"><img src="https://img.shields.io/github/stars/ertugrulakben/dep-oracle.svg?style=social" alt="GitHub stars"></a>
+    <a href="https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle"><img src="https://img.shields.io/badge/MCP-Registry-blue" alt="MCP Registry"></a>
   </p>
   <p align="center">
     <a href="#hızlı-başlangıç">Hızlı Başlangıç</a> &middot;
@@ -98,7 +103,7 @@ dep-oracle scan --verbose
 ## Çıktı Örneği
 
 ```
-dep-oracle v1.1.0
+dep-oracle v1.1.1
 package.json taranıyor...
 47 doğrudan bağımlılık, 683 geçişli bağımlılık bulundu
 Veri toplanıyor... [=============================] 100% (2.3s)
@@ -142,7 +147,7 @@ Her paket, altı ağırlıklı metriğe göre 0-100 arası puanlanır:
 
 **Skor Aralıkları:** 80-100 Güvenli | 50-79 Uyarı | 0-49 Kritik
 
-### Güvenlik Puanlaması (v1.1.0)
+### Güvenlik Puanlaması
 
 Güvenlik metriği **azalan ceza** modeli kullanır — ilk güvenlik açığı en yüksek etkiye sahiptir, sonrakiler giderek azalan etkiye sahip olur:
 
@@ -206,7 +211,7 @@ Her öneri zorluk derecesi (kolay/orta/zor) ve göç bağlamı içerir.
 
 ## Claude Code Entegrasyonu (MCP)
 
-dep-oracle, Claude Code için bir MCP sunucusu olarak çalışır:
+dep-oracle, resmi **[MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle)**'de kayıtlıdır ve Claude Code için bir MCP sunucusu olarak çalışır:
 
 ```json
 // .claude/settings.json
@@ -363,7 +368,12 @@ npm run lint      # TypeScript tip kontrolü
 
 ## Değişiklik Günlüğü
 
-### v1.1.0 (2025-02-22)
+### v1.1.1 (2026-02-22)
+
+- **MCP Registry**: Resmi [MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle)'de `io.github.ertugrulakben/dep-oracle` olarak yayınlandı
+- **Dinamik Versiyon**: MCP sunucusu ve SARIF raporcusu artık versiyonu package.json'dan okuyor
+
+### v1.1.0 (2026-02-22)
 
 - **Typosquat Tespiti**: 40+ kategoride 1.847+ bilinen pakete genişletildi, ayrıca dinamik npm registry sorgusu eklendi (en popüler 5.000 paket, 7 günlük önbellek)
 - **Göç Danışmanı**: 131 paket eşleşmesi ve 192 daha güvenli alternatife genişletildi
@@ -373,7 +383,7 @@ npm run lint      # TypeScript tip kontrolü
 - **Türkçe README**: Tam Türkçe dokümantasyon
 - **Dinamik CLI Versiyonu**: Versiyon otomatik olarak package.json'dan senkronize edilir
 
-### v1.0.0 (2025-02-22)
+### v1.0.0 (2026-02-22)
 
 - İlk sürüm
 - 6 ağırlıklı metrikli Güven Skoru motoru
