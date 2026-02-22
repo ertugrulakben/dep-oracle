@@ -10,7 +10,7 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
     <a href="https://www.npmjs.com/package/dep-oracle"><img src="https://img.shields.io/npm/dm/dep-oracle.svg" alt="npm downloads"></a>
     <a href="https://github.com/ertugrulakben/dep-oracle"><img src="https://img.shields.io/github/stars/ertugrulakben/dep-oracle.svg?style=social" alt="GitHub stars"></a>
-    <a href="https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle"><img src="https://img.shields.io/badge/MCP-Registry-blue" alt="MCP Registry"></a>
+    <a href="https://modelcontextprotocol.io/registry"><img src="https://img.shields.io/badge/MCP-Registry-blue" alt="MCP Registry"></a>
   </p>
   <p align="center">
     <a href="#quick-start">Quick Start</a> &middot;
@@ -194,7 +194,7 @@ Each suggestion includes difficulty rating (easy/moderate/hard) and migration co
 
 ## Claude Code Integration (MCP)
 
-dep-oracle is listed on the official **[MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle)** and works as an MCP server for Claude Code:
+dep-oracle is listed on the official **[MCP Registry](https://modelcontextprotocol.io/registry)** and works as an MCP server for Claude Code:
 
 ```json
 // .claude/settings.json
@@ -346,7 +346,7 @@ npm run lint      # TypeScript type checking
 
 ### v1.1.1 (2026-02-22)
 
-- **MCP Registry**: Listed on the official [MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle) as `io.github.ertugrulakben/dep-oracle`
+- **MCP Registry**: Listed on the official [MCP Registry](https://modelcontextprotocol.io/registry) as `io.github.ertugrulakben/dep-oracle`
 - **Dynamic Versioning**: MCP server and SARIF reporter now read version from package.json (no more hardcoded versions)
 
 ### v1.1.0 (2026-02-22)

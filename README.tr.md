@@ -10,7 +10,7 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
     <a href="https://www.npmjs.com/package/dep-oracle"><img src="https://img.shields.io/npm/dm/dep-oracle.svg" alt="npm downloads"></a>
     <a href="https://github.com/ertugrulakben/dep-oracle"><img src="https://img.shields.io/github/stars/ertugrulakben/dep-oracle.svg?style=social" alt="GitHub stars"></a>
-    <a href="https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle"><img src="https://img.shields.io/badge/MCP-Registry-blue" alt="MCP Registry"></a>
+    <a href="https://modelcontextprotocol.io/registry"><img src="https://img.shields.io/badge/MCP-Registry-blue" alt="MCP Registry"></a>
   </p>
   <p align="center">
     <a href="#hızlı-başlangıç">Hızlı Başlangıç</a> &middot;
@@ -211,7 +211,7 @@ Her öneri zorluk derecesi (kolay/orta/zor) ve göç bağlamı içerir.
 
 ## Claude Code Entegrasyonu (MCP)
 
-dep-oracle, resmi **[MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle)**'de kayıtlıdır ve Claude Code için bir MCP sunucusu olarak çalışır:
+dep-oracle, resmi **[MCP Registry](https://modelcontextprotocol.io/registry)**'de kayıtlıdır ve Claude Code için bir MCP sunucusu olarak çalışır:
 
 ```json
 // .claude/settings.json
@@ -370,7 +370,7 @@ npm run lint      # TypeScript tip kontrolü
 
 ### v1.1.1 (2026-02-22)
 
-- **MCP Registry**: Resmi [MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.ertugrulakben%2Fdep-oracle)'de `io.github.ertugrulakben/dep-oracle` olarak yayınlandı
+- **MCP Registry**: Resmi [MCP Registry](https://modelcontextprotocol.io/registry)'de `io.github.ertugrulakben/dep-oracle` olarak yayınlandı
 - **Dinamik Versiyon**: MCP sunucusu ve SARIF raporcusu artık versiyonu package.json'dan okuyor
 
 ### v1.1.0 (2026-02-22)
