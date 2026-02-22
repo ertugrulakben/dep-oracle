@@ -1,5 +1,11 @@
 # dep-oracle Changelog
 
+## [1.1.2] - 2026-02-22
+
+### Fixed
+- npm README now shows English README with cover image, MCP Registry badge, and complete changelog
+- MCP Registry links updated to official documentation URL
+
 ## [1.1.1] - 2026-02-22
 
 ### Added

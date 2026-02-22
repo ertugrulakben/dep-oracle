@@ -103,7 +103,7 @@ dep-oracle scan --verbose
 ## Çıktı Örneği
 
 ```
-dep-oracle v1.1.1
+dep-oracle v1.1.2
 package.json taranıyor...
 47 doğrudan bağımlılık, 683 geçişli bağımlılık bulundu
 Veri toplanıyor... [=============================] 100% (2.3s)
@@ -368,10 +368,15 @@ npm run lint      # TypeScript tip kontrolü
 
 ## Değişiklik Günlüğü
 
+### v1.1.2 (2026-02-22)
+
+- **npm README Duzeltmesi**: npmjs.com'da artik kapak resimli, MCP Registry badge'li Ingilizce README gorunuyor
+- **MCP Registry Linkleri**: Resmi dokumantasyon URL'sine guncellendi
+
 ### v1.1.1 (2026-02-22)
 
-- **MCP Registry**: Resmi [MCP Registry](https://modelcontextprotocol.io/registry)'de `io.github.ertugrulakben/dep-oracle` olarak yayınlandı
-- **Dinamik Versiyon**: MCP sunucusu ve SARIF raporcusu artık versiyonu package.json'dan okuyor
+- **MCP Registry**: Resmi [MCP Registry](https://modelcontextprotocol.io/registry)'de `io.github.ertugrulakben/dep-oracle` olarak yayinlandi
+- **Dinamik Versiyon**: MCP sunucusu ve SARIF raporcusu artik versiyonu package.json'dan okuyor
 
 ### v1.1.0 (2026-02-22)
 

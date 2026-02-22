@@ -99,7 +99,7 @@ dep-oracle scan --verbose
 ## Output Example
 
 ```
-dep-oracle v1.1.1
+dep-oracle v1.1.2
 Scanning package.json...
 Found 47 direct dependencies, 683 transitive
 Collecting data... [=============================] 100% (2.3s)
@@ -343,6 +343,11 @@ npm run lint      # TypeScript type checking
 ```
 
 ## Changelog
+
+### v1.1.2 (2026-02-22)
+
+- **npm README Fix**: English README with cover image, MCP Registry badge, and complete changelog now properly displayed on npmjs.com
+- **MCP Registry Links**: Updated to official documentation URL
 
 ### v1.1.1 (2026-02-22)
 
