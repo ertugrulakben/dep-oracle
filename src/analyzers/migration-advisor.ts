@@ -1542,6 +1542,263 @@ const MIGRATION_MAP: Record<string, MigrationEntry[]> = {
       difficulty: 'easy',
     },
   ],
+
+  // ─── v1.4.0 additions ───────────────────────────────────────────────
+
+  // Modern frameworks
+  'express': [
+    {
+      alternative: 'hono',
+      description: 'Ultra-fast web framework. Works on Node, Deno, Bun, Cloudflare Workers. Similar routing API.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'fastify',
+      description: 'Fast, low-overhead web framework with plugin architecture. Schema-based validation built-in.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'elysia',
+      description: 'Bun-native web framework with end-to-end type safety. Extremely fast.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'create-react-app': [
+    {
+      alternative: 'vite',
+      description: 'Lightning-fast build tool with HMR. Use "npm create vite@latest" with React template.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'next',
+      description: 'Full-stack React framework with SSR, file-based routing, and API routes.',
+      difficulty: 'hard',
+    },
+  ],
+
+  'react-scripts': [
+    {
+      alternative: 'vite',
+      description: 'Replace CRA build tooling with Vite. Much faster dev server and builds.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // ORM / Database
+  'prisma': [
+    {
+      alternative: 'drizzle-orm',
+      description: 'Lightweight TypeScript ORM with SQL-like syntax. Better performance, smaller bundle.',
+      difficulty: 'hard',
+    },
+  ],
+
+  // Testing
+  'jest': [
+    {
+      alternative: 'vitest',
+      description: 'Vite-native test runner. Jest-compatible API, much faster. Near drop-in replacement.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // CSS-in-JS
+  'styled-components': [
+    {
+      alternative: 'tailwindcss',
+      description: 'Utility-first CSS framework. Zero runtime CSS. Requires rewriting component styles.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'vanilla-extract',
+      description: 'Zero-runtime CSS-in-TypeScript. Type-safe styles with static extraction.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  '@emotion/react': [
+    {
+      alternative: 'tailwindcss',
+      description: 'Utility-first CSS framework. No runtime CSS overhead.',
+      difficulty: 'hard',
+    },
+    {
+      alternative: 'vanilla-extract',
+      description: 'Zero-runtime CSS-in-TypeScript. Static extraction at build time.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // State management
+  'redux': [
+    {
+      alternative: 'zustand',
+      description: 'Minimal state management with hooks. No boilerplate, no providers needed.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'jotai',
+      description: 'Primitive and flexible state management. Atomic approach, minimal API.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'mobx': [
+    {
+      alternative: 'zustand',
+      description: 'Simpler state management with hooks API. Less magic, more predictable.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // Process managers
+  'pm2': [
+    {
+      alternative: 'node --watch',
+      description: 'Node.js 18+ native watch mode. For development, no extra dependency needed.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'forever': [
+    {
+      alternative: 'pm2',
+      description: 'Modern process manager with clustering, monitoring, and log management.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // Validation
+  'joi': [
+    {
+      alternative: 'zod',
+      description: 'TypeScript-first schema validation. Better type inference, smaller bundle.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'valibot',
+      description: 'Ultra-small schema validation library. Modular, tree-shakeable.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'yup': [
+    {
+      alternative: 'zod',
+      description: 'TypeScript-first schema validation. Similar API but better type inference.',
+      difficulty: 'easy',
+    },
+    {
+      alternative: 'valibot',
+      description: 'Modular validation library. Much smaller bundle size than yup.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'class-validator': [
+    {
+      alternative: 'zod',
+      description: 'Functional schema validation without decorators. Works with any framework.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // HTTP / Fetch
+  'supertest': [
+    {
+      alternative: 'undici',
+      description: 'Node.js native HTTP/1.1 client. Fast, spec-compliant, built into Node 18+.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'needle': [
+    {
+      alternative: 'undici',
+      description: 'Node.js native HTTP client. No external dependency needed in Node 18+.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  // Logging (new additions)
+  'console-log-level': [
+    {
+      alternative: 'pino',
+      description: 'Ultra-fast JSON logger. Structured logging with minimal overhead.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // File system
+  'fs-extra': [
+    {
+      alternative: 'node:fs/promises',
+      description: 'Native Node.js fs promises API. Most fs-extra methods are now in core (cp, mkdir recursive).',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'graceful-fs': [
+    {
+      alternative: 'node:fs',
+      description: 'Modern Node.js handles EMFILE gracefully. The polyfill is rarely needed now.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // Environment
+  'cross-env': [
+    {
+      alternative: 'node --env-file',
+      description: 'Node.js 20+ supports --env-file flag natively. No extra package needed.',
+      difficulty: 'easy',
+    },
+  ],
+
+  'env-cmd': [
+    {
+      alternative: 'node --env-file',
+      description: 'Node.js 20+ supports --env-file flag. Replace env-cmd with native feature.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // Linting
+  'eslint': [
+    {
+      alternative: 'biome',
+      description: 'Rust-based linter and formatter. 10-100x faster than ESLint. Minimal config.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'oxlint',
+      description: 'Oxidation compiler linter. Extremely fast, compatible with many ESLint rules.',
+      difficulty: 'moderate',
+    },
+  ],
+
+  'prettier': [
+    {
+      alternative: 'biome',
+      description: 'Biome includes a Prettier-compatible formatter. One tool for lint + format.',
+      difficulty: 'easy',
+    },
+  ],
+
+  // Monorepo
+  'lerna': [
+    {
+      alternative: 'turborepo',
+      description: 'High-performance monorepo build system. Caching, parallel execution.',
+      difficulty: 'moderate',
+    },
+    {
+      alternative: 'nx',
+      description: 'Smart monorepo tool with computation caching and affected commands.',
+      difficulty: 'moderate',
+    },
+  ],
 };
 
 // ---------------------------------------------------------------------------

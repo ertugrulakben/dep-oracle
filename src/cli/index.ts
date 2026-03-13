@@ -2,8 +2,10 @@
  * dep-oracle CLI entry point.
  *
  * Commands:
- *   scan   - Scan project dependencies for trust scores and risks (default)
- *   check  - Check trust score for a single package
+ *   scan    - Scan project dependencies for trust scores and risks (default)
+ *   check   - Check trust score for a single package
+ *   compare - Compare two packages side-by-side
+ *   fix     - Identify risky deps and suggest safer replacements
  *
  * Usage:
  *   dep-oracle scan --dir ./my-project --format json
@@ -17,6 +19,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { createScanCommand } from './commands/scan.js';
 import { createCheckCommand } from './commands/check.js';
+import { createCompareCommand } from './commands/compare.js';
+import { createFixCommand } from './commands/fix.js';
 import { createBadgeCommand } from './commands/badge.js';
 import { setVerbose } from '../utils/logger.js';
 
@@ -29,7 +33,7 @@ const pkgVersion = (() => {
     const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
     return pkg.version as string;
   } catch {
-    return '1.3.0';
+    return '1.4.0';
   }
 })();
 
@@ -49,6 +53,8 @@ const program = new Command()
 
 program.addCommand(createScanCommand());
 program.addCommand(createCheckCommand());
+program.addCommand(createCompareCommand());
+program.addCommand(createFixCommand());
 program.addCommand(createBadgeCommand());
 
 program
